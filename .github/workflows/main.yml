@@ -8,11 +8,19 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+
+      - uses: pnpm/action-setup@v4
         with:
-          node-version: 18
-      - run: npm ci
-      - run: npm run build -- --configuration production --base-href "https://afhamsyahir.github.io/GitForNoob/"
-      - run: npx angular-cli-ghpages --dir=dist/GitForNoob
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install
+      - run: pnpm ng build --configuration production --base-href "https://afhamsyahir.github.io/GitForNoob/"
+      - run: pnpm exec angular-cli-ghpages --dir=dist/GitForNoob
