@@ -19,10 +19,7 @@ export class Content {
   copiedMarkdown = signal<string | null>(null);
   markdownContent = signal<Map<string, string>>(new Map());
 
-  constructor(
-    private readonly sanitizer: DomSanitizer,
-    private readonly http: HttpClient
-  ) {
+  constructor(private readonly sanitizer: DomSanitizer, private readonly http: HttpClient) {
     // Load markdown files when items change
     effect(() => {
       const currentItems = this.items();
@@ -31,9 +28,9 @@ export class Content {
   }
 
   private loadAllMarkdownFiles(items: ContentItem[]) {
-    items.forEach(item => {
+    items.forEach((item) => {
       if (item.media && item.media.length > 0) {
-        item.media.forEach(mediaItem => {
+        item.media.forEach((mediaItem) => {
           if (mediaItem.path && this.isMarkdownFile(mediaItem.path)) {
             this.loadMarkdownFile(mediaItem.path);
           }
@@ -59,7 +56,7 @@ export class Content {
           const currentMap = new Map(this.markdownContent());
           currentMap.set(filePath, `Error loading file: ${filePath}`);
           this.markdownContent.set(currentMap);
-        }
+        },
       });
     }
   }
@@ -85,7 +82,7 @@ export class Content {
   isImageFile(media: string): boolean {
     if (!media || typeof media !== 'string') return false;
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp'];
-    return imageExtensions.some(ext => media.toLowerCase().endsWith(ext));
+    return imageExtensions.some((ext) => media.toLowerCase().endsWith(ext));
   }
 
   isMarkdownFile(media: string): boolean {
@@ -104,6 +101,4 @@ export class Content {
     htmlOrPromise.then(() => {}); // do nothing or handle asynchronously
     return this.sanitizer.bypassSecurityTrustHtml('');
   }
-
-
 }

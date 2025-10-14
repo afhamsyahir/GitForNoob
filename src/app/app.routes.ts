@@ -4,6 +4,6 @@ import { Home } from './modules/home/home';
 export const routes: Routes = [
   {
     path: '',
-    component: Home
-  }
+    component: Home,
+  },
 ];

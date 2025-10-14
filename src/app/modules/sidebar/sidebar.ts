@@ -30,9 +30,9 @@ export class Sidebar implements OnInit, OnDestroy {
         this.ticking = true;
       }
     };
-    
+
     window.addEventListener('scroll', this.scrollListener, { passive: true });
-    
+
     // Initial check
     this.handleScroll(window.scrollY);
   }
@@ -51,12 +51,12 @@ export class Sidebar implements OnInit, OnDestroy {
     const scrollPosition = scrollY + 100; // Offset for header
 
     let currentSection = '';
-    
+
     sections.forEach((section) => {
       const element = section as HTMLElement;
       const sectionTop = element.offsetTop;
       const sectionHeight = element.offsetHeight;
-      
+
       if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
         currentSection = element.id;
       }
@@ -74,16 +74,16 @@ export class Sidebar implements OnInit, OnDestroy {
   scrollToSection(id: number) {
     const idString = id.toString();
     const element = document.getElementById(idString);
-    
+
     if (!element) {
       console.error(`Element with id "${idString}" not found`);
       return;
     }
-    
+
     // Check if it's the first element in the content
     const firstContentElement = document.querySelector('[id]');
     const isFirst = element === firstContentElement;
-    
+
     // If it's the first element, scroll to top of page
     if (isFirst) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -91,7 +91,7 @@ export class Sidebar implements OnInit, OnDestroy {
       // Check if it's near the bottom (last section)
       const documentHeight = document.documentElement.scrollHeight;
       const elementOffsetTop = element.offsetTop;
-      
+
       // If element is in the last 20% of the page, scroll to bottom
       if (elementOffsetTop > documentHeight * 0.8) {
         window.scrollTo({ top: documentHeight, behavior: 'smooth' });

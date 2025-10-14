@@ -72,7 +72,8 @@ pre {
 /* Markdown content styling for innerHTML rendered content */
 .markdown-content {
   /* Lists */
-  ul, ol {
+  ul,
+  ol {
     margin: 1rem 0;
     padding-left: 1.5rem;
   }
@@ -91,12 +92,14 @@ pre {
   }
 
   /* Nested lists */
-  ul ul, ol ul {
+  ul ul,
+  ol ul {
     list-style-type: circle;
     margin: 0.25rem 0;
   }
 
-  ul ul ul, ol ul ul {
+  ul ul ul,
+  ol ul ul {
     list-style-type: square;
   }
 

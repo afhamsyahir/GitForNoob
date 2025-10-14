@@ -15,12 +15,8 @@
       <ng-container
         *ngTemplateOutlet="commandBlock; context: { command: item.command }"
       ></ng-container>
-      }
-
-      @if (item.media && item.media.length > 0) {
-      <ng-container
-        *ngTemplateOutlet="mediaBlock; context: { media: item.media }"
-      ></ng-container>
+      } @if (item.media && item.media.length > 0) {
+      <ng-container *ngTemplateOutlet="mediaBlock; context: { media: item.media }"></ng-container>
       }
     </div>
 
@@ -43,9 +39,7 @@
         <ng-container
           *ngTemplateOutlet="commandBlock; context: { command: subItem.command }"
         ></ng-container>
-        }
-
-        @if (subItem.media && subItem.media.length > 0) {
+        } @if (subItem.media && subItem.media.length > 0) {
         <ng-container
           *ngTemplateOutlet="mediaBlock; context: { media: subItem.media }"
         ></ng-container>
@@ -68,9 +62,7 @@
             <ng-container
               *ngTemplateOutlet="commandBlock; context: { command: nestedItem.command }"
             ></ng-container>
-            }
-
-            @if (nestedItem.media && nestedItem.media.length > 0) {
+            } @if (nestedItem.media && nestedItem.media.length > 0) {
             <ng-container
               *ngTemplateOutlet="mediaBlock; context: { media: nestedItem.media }"
             ></ng-container>
@@ -119,44 +111,47 @@
 
 <ng-template #mediaBlock let-media="media">
   <div class="mt-4 space-y-4">
-    @for (mediaItem of media; track mediaItem.path) {
-      @if (isImageFile(mediaItem.path)) {
-        <!-- Image Display -->
-        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-          <img 
-            [src]="mediaItem.path" 
-            [alt]="mediaItem.path"
-            class="w-full h-auto"
-            loading="lazy"
-          />
+    @for (mediaItem of media; track mediaItem.path) { @if (isImageFile(mediaItem.path)) {
+    <!-- Image Display -->
+    <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+      <img [src]="mediaItem.path" [alt]="mediaItem.path" class="w-full h-auto" loading="lazy" />
+    </div>
+    } @else if (isMarkdownFile(mediaItem.path)) {
+    <!-- Markdown File with Copy -->
+    <div
+      class="rounded-lg bg-zinc-100 dark:bg-zinc-900 relative group border border-zinc-200 dark:border-zinc-800"
+    >
+      <div
+        class="flex items-center justify-between px-4 py-2 border-b border-zinc-200 dark:border-zinc-800"
+      >
+        <div class="flex items-center gap-2">
+          <ng-container *ngTemplateOutlet="fileIcon"></ng-container>
+          <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">{{
+            mediaItem.path
+          }}</span>
         </div>
-      } @else if (isMarkdownFile(mediaItem.path)) {
-        <!-- Markdown File with Copy -->
-        <div class="rounded-lg bg-zinc-100 dark:bg-zinc-900 relative group border border-zinc-200 dark:border-zinc-800">
-          <div class="flex items-center justify-between px-4 py-2 border-b border-zinc-200 dark:border-zinc-800">
-            <div class="flex items-center gap-2">
-              <ng-container *ngTemplateOutlet="fileIcon"></ng-container>
-              <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ mediaItem.path }}</span>
-            </div>
-            <button
-              (click)="copyMarkdownToClipboard(getMarkdownContent(mediaItem.path))"
-              class="p-1 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors"
-              [matTooltip]="copiedMarkdown() === getMarkdownContent(mediaItem.path) ? 'Copied!' : 'Copy content'"
-              matTooltipPosition="above"
-            >
-              @if (copiedMarkdown() === getMarkdownContent(mediaItem.path)) {
-                <ng-container *ngTemplateOutlet="checkIcon"></ng-container>
-              } @else {
-                <ng-container *ngTemplateOutlet="copyIcon"></ng-container>
-              }
-            </button>
-          </div>
-          <div class="p-4 overflow-x-auto">
-            <pre class="m-0 text-sm whitespace-pre-wrap text-zinc-900 dark:text-zinc-100"><code>{{ getMarkdownContent(mediaItem.path) }}</code></pre>
-          </div>
-        </div>
-      }
-    }
+        <button
+          (click)="copyMarkdownToClipboard(getMarkdownContent(mediaItem.path))"
+          class="p-1 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors"
+          [matTooltip]="
+            copiedMarkdown() === getMarkdownContent(mediaItem.path) ? 'Copied!' : 'Copy content'
+          "
+          matTooltipPosition="above"
+        >
+          @if (copiedMarkdown() === getMarkdownContent(mediaItem.path)) {
+          <ng-container *ngTemplateOutlet="checkIcon"></ng-container>
+          } @else {
+          <ng-container *ngTemplateOutlet="copyIcon"></ng-container>
+          }
+        </button>
+      </div>
+      <div class="p-4 overflow-x-auto">
+        <pre
+          class="m-0 text-sm whitespace-pre-wrap text-zinc-900 dark:text-zinc-100"
+        ><code>{{ getMarkdownContent(mediaItem.path) }}</code></pre>
+      </div>
+    </div>
+    } }
   </div>
 </ng-template>
 

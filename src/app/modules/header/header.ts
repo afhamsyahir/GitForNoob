@@ -6,7 +6,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './header.html',
-  styleUrl: './header.scss'
+  styleUrl: './header.scss',
 })
 export class Header implements OnInit {
   private readonly document = inject(DOCUMENT);
@@ -16,7 +16,7 @@ export class Header implements OnInit {
     // Check for saved theme preference or default to light mode
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+
     const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
     this.isDarkMode.set(isDark);
     this.applyTheme(isDark);
@@ -32,7 +32,7 @@ export class Header implements OnInit {
   private applyTheme(isDark: boolean) {
     this.document.documentElement.classList.toggle('dark', isDark);
     this.document.body.classList.toggle('dark', isDark);
-    
+
     // Update theme-color meta tag
     const themeColorMeta = this.document.querySelector('meta[name="theme-color"]');
     if (themeColorMeta) {
