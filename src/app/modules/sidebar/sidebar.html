@@ -1,0 +1,64 @@
+<div class="w-full">
+  <div class="mb-4">
+    <h4 class="text-sm mb-1 text-zinc-500 dark:text-zinc-400">Sections</h4>
+  </div>
+
+  @for (item of items(); track item.id) {
+  <div class="mb-8">
+    <!-- Main Item -->
+    <h4 class="text-sm font-medium mb-1">
+      <a
+        (click)="scrollToSection(item.id); $event.preventDefault()"
+        href="#"
+        [class]="
+          'cursor-pointer transition-colors ' +
+          (isActive(item.id)
+            ? ' text-zinc-950 dark:text-zinc-100'
+            : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100')
+        "
+      >
+        {{ item.title }}
+      </a>
+    </h4>
+
+    <!-- Sub Items -->
+    @if (item.items && item.items.length > 0) {
+    <div class="grid gap-0 mt-1">
+      @for (subItem of item.items; track subItem.id) {
+      <a
+        (click)="scrollToSection(subItem.id); $event.preventDefault()"
+        href="#"
+        [class]="
+          'block py-1 text-[13px] cursor-pointer transition-colors ' +
+          (isActive(subItem.id)
+            ? ' text-zinc-950 dark:text-zinc-100'
+            : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100')
+        "
+      >
+        {{ subItem.title }}
+      </a>
+
+      <!-- Nested Sub Items -->
+      @if (subItem.items && subItem.items.length > 0) {
+      <div class="ml-4">
+        @for (nestedItem of subItem.items; track nestedItem.id) {
+        <a
+          (click)="scrollToSection(nestedItem.id); $event.preventDefault()"
+          href="#"
+          [class]="
+            'block py-1 text-[13px] cursor-pointer transition-colors ' +
+            (isActive(nestedItem.id)
+              ? ' text-zinc-950 dark:text-zinc-100'
+              : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100')
+          "
+        >
+          {{ nestedItem.title }}
+        </a>
+        }
+      </div>
+      } }
+    </div>
+    }
+  </div>
+  }
+</div>

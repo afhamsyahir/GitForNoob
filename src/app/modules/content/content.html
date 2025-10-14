@@ -1,0 +1,224 @@
+<div>
+  @for (item of items(); track item.id) {
+  <div [id]="item.id.toString()" class="scroll-mt-20">
+    <!-- Main Section -->
+    <div>
+      <h1 class="text-3xl font-semibold leading-tight mb-4 text-foreground">
+        {{ item.title }}
+      </h1>
+      <div
+        class="text-base leading-relaxed mb-4 text-muted-foreground markdown-content"
+        [innerHTML]="renderDescription(item.description)"
+      ></div>
+
+      @if (item.command) {
+      <ng-container
+        *ngTemplateOutlet="commandBlock; context: { command: item.command }"
+      ></ng-container>
+      }
+
+      @if (item.media && item.media.length > 0) {
+      <ng-container
+        *ngTemplateOutlet="mediaBlock; context: { media: item.media }"
+      ></ng-container>
+      }
+    </div>
+
+    <!-- Sub Items -->
+    @if (item.items && item.items.length > 0) {
+    <div class="mt-12">
+      @for (subItem of item.items; track subItem.id) {
+      <div [id]="subItem.id.toString()" class="mb-12 scroll-mt-20">
+        <h2
+          class="text-xl font-medium pb-2 border-b border-zinc-200 dark:border-zinc-800 mb-4 text-foreground"
+        >
+          {{ subItem.title }}
+        </h2>
+        <div
+          class="text-base leading-7 mb-4 text-muted-foreground markdown-content"
+          [innerHTML]="renderDescription(subItem.description)"
+        ></div>
+
+        @if (subItem.command) {
+        <ng-container
+          *ngTemplateOutlet="commandBlock; context: { command: subItem.command }"
+        ></ng-container>
+        }
+
+        @if (subItem.media && subItem.media.length > 0) {
+        <ng-container
+          *ngTemplateOutlet="mediaBlock; context: { media: subItem.media }"
+        ></ng-container>
+        }
+
+        <!-- Nested Sub Items -->
+        @if (subItem.items && subItem.items.length > 0) {
+        <div class="mt-8">
+          @for (nestedItem of subItem.items; track nestedItem.id) {
+          <div [id]="nestedItem.id.toString()" class="mb-8 scroll-mt-20">
+            <h3 class="text-xl font-medium leading-snug mb-3 text-foreground">
+              {{ nestedItem.title }}
+            </h3>
+            <div
+              class="text-base leading-7 mb-4 text-muted-foreground markdown-content"
+              [innerHTML]="renderDescription(nestedItem.description)"
+            ></div>
+
+            @if (nestedItem.command) {
+            <ng-container
+              *ngTemplateOutlet="commandBlock; context: { command: nestedItem.command }"
+            ></ng-container>
+            }
+
+            @if (nestedItem.media && nestedItem.media.length > 0) {
+            <ng-container
+              *ngTemplateOutlet="mediaBlock; context: { media: nestedItem.media }"
+            ></ng-container>
+            }
+          </div>
+          }
+        </div>
+        }
+      </div>
+      }
+    </div>
+    }
+  </div>
+  }
+</div>
+
+<ng-template #commandBlock let-command="command">
+  <div
+    class="rounded-lg bg-zinc-100 dark:bg-zinc-900 relative group border border-zinc-200 dark:border-zinc-800"
+  >
+    <div
+      class="flex items-center justify-between px-4 py-2 border-b border-zinc-200 dark:border-zinc-800"
+    >
+      <ng-container *ngTemplateOutlet="terminalIcon"></ng-container>
+      <button
+        (click)="copyToClipboard(command)"
+        class="p-1 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors"
+        [matTooltip]="copiedCommand() === command ? 'Copied!' : 'Copy to clipboard'"
+        matTooltipPosition="above"
+      >
+        @if (copiedCommand() === command) {
+        <ng-container *ngTemplateOutlet="checkIcon"></ng-container>
+        } @else {
+        <ng-container *ngTemplateOutlet="copyIcon"></ng-container>
+        }
+      </button>
+    </div>
+
+    <div class="p-4 overflow-x-auto">
+      <pre
+        class="m-0 text-sm whitespace-pre text-zinc-900 dark:text-zinc-100"
+      ><code>{{ command }}</code></pre>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mediaBlock let-media="media">
+  <div class="mt-4 space-y-4">
+    @for (mediaItem of media; track mediaItem.path) {
+      @if (isImageFile(mediaItem.path)) {
+        <!-- Image Display -->
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+          <img 
+            [src]="mediaItem.path" 
+            [alt]="mediaItem.path"
+            class="w-full h-auto"
+            loading="lazy"
+          />
+        </div>
+      } @else if (isMarkdownFile(mediaItem.path)) {
+        <!-- Markdown File with Copy -->
+        <div class="rounded-lg bg-zinc-100 dark:bg-zinc-900 relative group border border-zinc-200 dark:border-zinc-800">
+          <div class="flex items-center justify-between px-4 py-2 border-b border-zinc-200 dark:border-zinc-800">
+            <div class="flex items-center gap-2">
+              <ng-container *ngTemplateOutlet="fileIcon"></ng-container>
+              <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ mediaItem.path }}</span>
+            </div>
+            <button
+              (click)="copyMarkdownToClipboard(getMarkdownContent(mediaItem.path))"
+              class="p-1 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors"
+              [matTooltip]="copiedMarkdown() === getMarkdownContent(mediaItem.path) ? 'Copied!' : 'Copy content'"
+              matTooltipPosition="above"
+            >
+              @if (copiedMarkdown() === getMarkdownContent(mediaItem.path)) {
+                <ng-container *ngTemplateOutlet="checkIcon"></ng-container>
+              } @else {
+                <ng-container *ngTemplateOutlet="copyIcon"></ng-container>
+              }
+            </button>
+          </div>
+          <div class="p-4 overflow-x-auto">
+            <pre class="m-0 text-sm whitespace-pre-wrap text-zinc-900 dark:text-zinc-100"><code>{{ getMarkdownContent(mediaItem.path) }}</code></pre>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</ng-template>
+
+<ng-template #terminalIcon>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="size-4 text-zinc-500 dark:text-zinc-400"
+  >
+    <path d="M12 19h8" />
+    <path d="m4 17 6-6-6-6" />
+  </svg>
+</ng-template>
+
+<ng-template #copyIcon>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="size-4 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+  >
+    <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+  </svg>
+</ng-template>
+
+<ng-template #fileIcon>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="size-4 text-zinc-500 dark:text-zinc-400"
+  >
+    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+    <polyline points="14 2 14 8 20 8" />
+  </svg>
+</ng-template>
+
+<ng-template #checkIcon>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="size-4 text-green-600 dark:text-green-500"
+  >
+    <path d="M20 6 9 17l-5-5" />
+  </svg>
+</ng-template>

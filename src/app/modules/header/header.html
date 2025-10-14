@@ -1,0 +1,84 @@
+<header
+  class="sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+>
+  <div class="flex h-14 items-center justify-between px-6">
+    <!-- Logo -->
+    <div class="flex items-center gap-2">
+      <ng-container *ngTemplateOutlet="birdIcon"></ng-container>
+      <span class="text-md font-semibold">GitForNoob</span>
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <button
+      (click)="toggleDarkMode()"
+      class="flex items-center justify-center size-7 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+      [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
+    >
+      @if (isDarkMode()) {
+      <ng-container *ngTemplateOutlet="sunIcon"></ng-container>
+      } @else {
+      <ng-container *ngTemplateOutlet="moonIcon"></ng-container>
+      }
+    </button>
+  </div>
+</header>
+
+<ng-template #sunIcon>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="size-4 text-zinc-700 dark:text-zinc-300"
+  >
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2" />
+    <path d="M12 20v2" />
+    <path d="m4.93 4.93 1.41 1.41" />
+    <path d="m17.66 17.66 1.41 1.41" />
+    <path d="M2 12h2" />
+    <path d="M20 12h2" />
+    <path d="m6.34 17.66-1.41 1.41" />
+    <path d="m19.07 4.93-1.41 1.41" />
+  </svg>
+</ng-template>
+
+<ng-template #moonIcon>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="size-4 text-zinc-700 dark:text-zinc-300"
+  >
+    <path
+      d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"
+    />
+  </svg>
+</ng-template>
+
+<ng-template #birdIcon>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="size-5 text-zinc-700 dark:text-zinc-300"
+  >
+    <path d="M16 7h.01" />
+    <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
+    <path d="m20 7 2 .5-2 .5" />
+    <path d="M10 18v3" />
+    <path d="M14 17.75V21" />
+    <path d="M7 18a6 6 0 0 0 3.84-10.61" />
+  </svg>
+</ng-template>

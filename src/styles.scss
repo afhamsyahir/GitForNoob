@@ -1,0 +1,149 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+@import 'tailwindcss';
+
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --border: 240 5.9% 90%;
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --border: 240 3.7% 15.9%;
+}
+
+* {
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overscroll-behavior: none;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark {
+  color-scheme: dark;
+}
+
+code,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Markdown content styling for innerHTML rendered content */
+.markdown-content {
+  /* Lists */
+  ul, ol {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  li {
+    margin: 0.5rem 0;
+    padding-left: 0.25rem;
+  }
+
+  /* Nested lists */
+  ul ul, ol ul {
+    list-style-type: circle;
+    margin: 0.25rem 0;
+  }
+
+  ul ul ul, ol ul ul {
+    list-style-type: square;
+  }
+
+  /* Links */
+  a {
+    @apply text-blue-500 underline underline-offset-2 hover:text-blue-600 transition-colors;
+  }
+
+  /* Bold and italic */
+  strong {
+    @apply font-semibold;
+  }
+
+  em {
+    @apply italic;
+  }
+
+  /* Code inline */
+  code {
+    @apply bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-sm font-medium;
+  }
+
+  /* Paragraphs */
+  p {
+    @apply my-3;
+
+    &:first-child {
+      @apply mt-0;
+    }
+
+    &:last-child {
+      @apply mb-0;
+    }
+  }
+
+  /* Blockquotes */
+  blockquote {
+    @apply border-l-4 border-zinc-300 dark:border-zinc-700 pl-4 my-4 italic;
+  }
+
+  /* Horizontal rule */
+  hr {
+    @apply border-t border-zinc-200 dark:border-zinc-800 my-6;
+  }
+}
+
+/* Dark mode link colors */
+.dark .markdown-content a {
+  @apply text-blue-400 hover:text-blue-300;
+}

@@ -1,0 +1,21 @@
+<div class="min-h-screen">
+  <!-- Header -->
+  <app-header></app-header>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="sticky top-14 h-[calc(100vh-3rem)] w-64 flex-shrink-0 overflow-y-auto py-8 px-6">
+      <app-sidebar [items]="contentData()"></app-sidebar>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-x-hidden">
+      <div class="mx-auto w-full max-w-4xl px-8 py-12 lg:px-16 lg:py-16">
+        <app-content [items]="contentData()"></app-content>
+      </div>
+
+      <!-- Footer -->
+      <app-footer></app-footer>
+    </main>
+  </div>
+</div>
