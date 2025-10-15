@@ -8,9 +8,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: pnpm/action-setup@v4
         with:
@@ -21,6 +25,18 @@ jobs:
           node-version: 20
           cache: 'pnpm'
 
-      - run: pnpm install
-      - run: pnpm ng build --base-href "https://afhamsyahir.github.io/GitForNoob/"
-      - run: pnpm exec angular-cli-ghpages --dir=dist/GitForNoob/browser
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Angular app
+        run: pnpm ng build --configuration production --base-href "https://afhamsyahir.github.io/GitForNoob/"
+
+      - name: Deploy to GitHub Pages
+        run: pnpm exec angular-cli-ghpages --dir=dist/GitForNoob/browser --no-silent
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
