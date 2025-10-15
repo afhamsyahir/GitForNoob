@@ -271,6 +271,12 @@
             "action": "git commit -m \"Feature progress commit\"",
             "description": "Creates a new commit containing staged changes with a message."
           }
+        ],
+        "media": [
+          {
+            "path": "images/git-branch-commit.webp",
+            "variant": "common"
+          }
         ]
       },
       {
