@@ -58,3 +58,24 @@
 .zoom-close-button {
   animation: fadeIn 0.2s ease-out 0.1s backwards;
 }
+
+/* Media loading animation */
+@keyframes birdJumpSmall {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-12px) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(3deg);
+  }
+  75% {
+    transform: translateY(-12px) rotate(-3deg);
+  }
+}
+
+.bird-loading-small {
+  animation: birdJumpSmall 1s ease-in-out infinite;
+}

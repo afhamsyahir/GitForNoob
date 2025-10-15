@@ -21,6 +21,7 @@ export class Content {
   fileContent = signal<Map<string, string>>(new Map());
   zoomedImage = signal<string | null>(null);
   isClosingZoom = signal<boolean>(false);
+  loadedImages = signal<Set<string>>(new Set());
 
   private readonly themeService = inject(ThemeService);
   isDarkMode = this.themeService.isDarkMode;
@@ -138,5 +139,22 @@ export class Content {
       this.zoomedImage.set(null);
       this.isClosingZoom.set(false);
     }, 200); // Match the longest animation duration (0.2s)
+  }
+
+  onImageLoad(imagePath: string, event?: Event) {
+    const currentSet = new Set(this.loadedImages());
+    currentSet.add(imagePath);
+    this.loadedImages.set(currentSet);
+
+    // No need to create new Image objects - the browser's HTTP cache
+    // will handle reusing the already-loaded image data
+  }
+
+  isImageLoaded(imagePath: string): boolean {
+    return this.loadedImages().has(imagePath);
+  }
+
+  isFileLoaded(filePath: string): boolean {
+    return this.fileContent().has(filePath);
   }
 }

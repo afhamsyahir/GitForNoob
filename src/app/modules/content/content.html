@@ -126,15 +126,40 @@
     @for (mediaItem of media; track $index) { @if (isImageFile(mediaItem.path)) {
     <!-- Image Display -->
     <div
-      class="rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden w-fit cursor-pointer hover:opacity-90 transition-opacity"
-      style="max-width: min(600px, 100%)"
-      (click)="openImageZoom(mediaItem.path)"
+      class="rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden w-full relative bg-zinc-100 dark:bg-zinc-900"
+      [style.min-height]="!isImageLoaded(mediaItem.path) ? '200px' : 'auto'"
     >
+      <!-- Loading Placeholder -->
+      @if (!isImageLoaded(mediaItem.path)) {
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-8 h-8 text-zinc-400 dark:text-zinc-600 bird-loading-small"
+        >
+          <path d="M16 7h.01" />
+          <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
+          <path d="m20 7 2 .5-2 .5" />
+          <path d="M10 18v3" />
+          <path d="M14 17.75V21" />
+          <path d="M7 18a6 6 0 0 0 3.84-10.61" />
+        </svg>
+        <p class="text-sm text-zinc-400 dark:text-zinc-500">loading...</p>
+      </div>
+      }
       <img
         [src]="mediaItem.path"
         [alt]="mediaItem.path"
-        class="h-auto block max-w-full"
+        class="w-full h-auto block cursor-pointer hover:opacity-90 transition-all duration-300"
+        [class.opacity-0]="!isImageLoaded(mediaItem.path)"
         loading="lazy"
+        (load)="onImageLoad(mediaItem.path, $event)"
+        (click)="openImageZoom(mediaItem.path)"
       />
     </div>
     } @else if (isTextFile(mediaItem.path)) {
@@ -167,9 +192,32 @@
         </button>
       </div>
       <div class="p-4 overflow-x-auto">
+        @if (!isFileLoaded(mediaItem.path)) {
+        <!-- Loading Placeholder for Text Files -->
+        <div class="flex items-center justify-center py-8">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-8 h-8 text-zinc-400 dark:text-zinc-600 bird-loading-small"
+          >
+            <path d="M16 7h.01" />
+            <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
+            <path d="m20 7 2 .5-2 .5" />
+            <path d="M10 18v3" />
+            <path d="M14 17.75V21" />
+            <path d="M7 18a6 6 0 0 0 3.84-10.61" />
+          </svg>
+        </div>
+        } @else {
         <pre
           class="m-0 text-sm whitespace-pre-wrap text-zinc-900 dark:text-zinc-100"
         ><code>{{ getFileContent(mediaItem.path) }}</code></pre>
+        }
       </div>
     </div>
     } }
@@ -272,8 +320,9 @@
         <path d="m6 6 12 12" />
       </svg>
     </button>
+
     <img
-      [src]="zoomedImage()"
+      [src]="zoomedImage()!"
       [alt]="zoomedImage()"
       class="max-w-full max-h-[80vh] w-auto h-auto rounded-lg shadow-2xl"
       (click)="$event.stopPropagation()"

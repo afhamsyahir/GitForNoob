@@ -107,11 +107,11 @@
         "description": "Git organizes your files into three zones:\n\n1. **Working Directory** – where you make edits.\n2. **Staging Area (Index)** – where you decide which edits to include.\n3. **Repository (History)** – where confirmed commits are stored.\n\nThink of it like preparing a report: you draft edits (working), mark sections to include (staging), then save a version snapshot (commit).",
         "media": [
           {
-            "path": "images/git-workflow-dark.png",
+            "path": "images/git-workflow-dark.webp",
             "variant": "dark"
           },
           {
-            "path": "images/git-workflow-light.png",
+            "path": "images/git-workflow-light.webp",
             "variant": "light"
           }
         ],
@@ -124,7 +124,7 @@
         "description": "Use this step whenever you want to see what changed since your last commit. It lists new, modified, and staged files to keep your work organized.\n\n> **VS Code Tip:** Open the **Source Control** panel (Ctrl + Shift + G). Files marked *M* are modified, *U* are untracked, and staged ones appear in green.",
         "media": [
           {
-            "path": "images/git-status.png",
+            "path": "images/git-status.webp",
             "variant": "common"
           }
         ],
@@ -183,7 +183,7 @@
         "description": "Every commit becomes a permanent checkpoint. Listing history helps you track progress, understand changes, and trace bugs.\n\n> **VS Code Tip:** Use the *Timeline* view in the file explorer or install **GitLens** to browse commit details visually.",
         "media": [
           {
-            "path": "images/git-log.png",
+            "path": "images/git-log.webp",
             "variant": "common"
           }
         ],
@@ -435,11 +435,11 @@
         "description": "A smooth Git rhythm for teams usually looks like this:\n\n1. **Pull** to update your local code.\n2. **Edit** and improve files.\n3. **Stage and commit** your updates.\n4. **Push** to share with others.\n\nKeeping to this flow ensures everyone’s working on the newest version and avoids frustrating conflicts.",
         "media": [
           {
-            "path": "images/git-daily-cycle-dark.png",
+            "path": "images/git-daily-cycle-dark.webp",
             "variant": "dark"
           },
           {
-            "path": "images/git-daily-cycle-light.png",
+            "path": "images/git-daily-cycle-light.webp",
             "variant": "light"
           }
         ],
