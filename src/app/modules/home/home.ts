@@ -72,12 +72,17 @@ export interface ContentItem {
 export class Home implements OnInit {
   contentData = signal<ContentItem[]>([]);
   isMobileMenuOpen = signal<boolean>(false);
+  isLoading = signal<boolean>(true);
 
   constructor(private readonly http: HttpClient) {}
 
   ngOnInit() {
     this.http.get<ContentItem[]>('json/new-content.json').subscribe((data) => {
       this.contentData.set(data);
+      // Add a small delay to show the loading animation
+      setTimeout(() => {
+        this.isLoading.set(false);
+      }, 500);
     });
   }
 
