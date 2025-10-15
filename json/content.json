@@ -68,126 +68,231 @@
         "command": "git --version\ngit config --list",
         "media": [],
         "items": [],
-        "id": 10
+        "id": 9
       }
     ],
     "id": 1
   },
   {
+    "id": 10,
     "title": "Core Git Workflow",
-    "description": "Understand how Git moves your work from edits, to staging, to final commits saved in history.",
+    "description": "Understand the complete Git workflow — how your edits move through the working directory, staging area, and finally become permanent commits. This process forms the foundation of version control in Git.",
     "command": "",
     "media": [],
     "items": [
       {
+        "id": 11,
         "title": "How Git Tracks Changes",
-        "description": "Git works in three areas:\n\n1. **Working Directory** – where you make changes.\n2. **Staging Area** – where you review and prepare what will be saved.\n3. **Repository** – where completed commits are stored.\n\nIt’s a bit like writing a document: draft freely (working), choose paragraphs to keep (staging), and save once ready (commit).",
+        "description": "Git organizes your files into three zones:\n\n1. **Working Directory** – where you make edits.\n2. **Staging Area (Index)** – where you decide which edits to include.\n3. **Repository (History)** – where confirmed commits are stored.\n\nThink of it like preparing a report: you draft edits (working), mark sections to include (staging), then save a version snapshot (commit).",
         "command": "",
-        "media": [],
-        "items": [],
-        "id": 12
+        "media": [
+          {
+            "path": "images/git-workflow-dark.png",
+            "variant": "dark"
+          },
+          {
+            "path": "images/git-workflow-light.png",
+            "variant": "light"
+          }
+        ],
+        "items": []
       },
       {
-        "title": "Check Project Status",
-        "description": "See which files are new, modified, or staged.\n\n> **VS Code GUI Tip:** Click the **Source Control** icon (Ctrl + Shift + G). You’ll see modified files marked as **M**, new ones as **U**, and staged files highlighted in green.",
+        "id": 12,
+        "title": "Modify Files in the Working Directory",
+        "description": "Start by making or editing files inside your project folder. Git automatically detects any changes or new files. Use the following command to review what’s currently changed.\n\n> **VS Code Tip:** Click the **Source Control** icon (Ctrl + Shift + G). Modified files show as **M**, new ones as **U**, and staged files appear in green.",
         "command": "git status",
         "media": [],
-        "items": [],
-        "id": 13
+        "items": []
       },
       {
-        "title": "Add and Commit",
-        "description": "After editing files, stage the ones you want to include in your snapshot and commit them with a short descriptive message.\n\n> **VS Code GUI Tip:** Use the **+** icon beside each file to stage it. Add a brief message in the text box, then press **Ctrl + Enter** or click **Commit**.",
-        "command": "git add <filename>\ngit commit -m \"Describe your change here\"",
+        "id": 13,
+        "title": "Stage Changes for the Next Commit",
+        "description": "Before saving your progress in a commit, you define which updates will be included. This is called staging. Staging ensures only ready changes enter the history.\n\n> **Best Practice:** Stage smaller, clear changes together — it helps teammates understand later reviews.\n\n> **VS Code Tip:** In **Source Control**, click the **+** beside a file to stage it.",
+        "command": "git add <filename>\n# or stage all changes\ngit add .",
         "media": [],
-        "items": [],
-        "id": 15
+        "items": []
       },
       {
+        "id": 14,
+        "title": "Commit Staged Changes",
+        "description": "Once staged, you create a commit — a checkpoint capturing the state of your project. Include a short message that summarizes what changed.\n\n> **VS Code Tip:** Type your message at the top of the *Source Control* panel and press **Ctrl + Enter** or click **Commit**.",
+        "command": "git commit -m \"Describe your change here\"",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 15,
+        "title": "Review Commit History",
+        "description": "Every commit becomes part of your repository history. You can view previous work, see who changed what, or identify where an issue began.",
+        "command": "git log --oneline\n# for detailed view\ngit log",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 16,
         "title": "Ignore Temporary Files",
-        "description": "To prevent unnecessary files (like builds or logs) from being tracked, list them in a `.gitignore` file.",
+        "description": "Some files don’t need to be tracked, like build outputs or logs. Use a `.gitignore` file to exclude them from version control.\n\n> **Tip:** Common ignores include `node_modules/`, `.env`, and `dist/` folders.",
         "command": "echo 'node_modules/' >> .gitignore\ngit add .gitignore\ngit commit -m \"Add .gitignore file\"",
         "media": [],
-        "items": [],
-        "id": 17
+        "items": []
       }
-    ],
-    "id": 11
+    ]
   },
   {
+    "id": 17,
     "title": "Branching and Merging",
-    "description": "Use branches to work on new ideas without touching the main codebase. Merge them when they’re ready.",
+    "description": "Branching allows you to work on a new idea, fix, or update without touching the main codebase. It’s like having a safe workspace you can merge back once your changes are ready and stable.",
     "command": "",
     "media": [],
     "items": [
       {
-        "title": "Create and Switch Branches",
-        "description": "A branch lets you isolate your work. Create one for each feature or fix so development stays separate and clean.\n\n> **VS Code GUI Tip:** Click the current branch name in the bottom-left corner. From there you can create, rename, or switch branches easily.",
-        "command": "git branch feature-1\ngit checkout feature-1",
-        "media": [],
-        "items": [],
-        "id": 19
-      },
-      {
-        "title": "Merge Branches",
-        "description": "When your branch work is tested and complete, merge it into `main`. Git will combine your updates automatically unless there are conflicts.\n\n> **VS Code GUI Tip:** First switch to `main`, then open **Source Control → ... → Merge Branch...** and select the branch with your changes.",
-        "command": "git checkout main\ngit merge feature-1",
-        "media": [],
-        "items": [],
-        "id": 21
-      }
-    ],
-    "id": 18
-  },
-  {
-    "title": "Connecting to Azure DevOps",
-    "description": "Connect your local Git project to a remote repository in **Azure DevOps** so you can back up work and collaborate with others.",
-    "command": "",
-    "media": [],
-    "items": [
-      {
-        "title": "Add Remote Repository",
-        "description": "Link your local project to an Azure DevOps repository. This enables pushing and pulling code between local and cloud.\n\n> **Azure DevOps Tip:** In your Azure DevOps project, go to **Repos → Files → Clone**, copy the HTTPS URL, and paste it into the command above. You can confirm by running `git remote -v`.",
-        "command": "git remote add origin https://dev.azure.com/<org>/<project>/_git/<repo>",
-        "media": [],
-        "items": [],
-        "id": 24
-      },
-      {
-        "title": "Push to Azure DevOps",
-        "description": "Once the remote link is ready, send your local commits to the cloud repository.\n\n> **VS Code GUI Tip:** Click **Sync Changes** in the **Source Control** panel (circle arrows). The status bar will show upload progress.\n\n> **Azure DevOps Tip:** Visit **Repos → Files** in Azure DevOps. You should now see your code online, ready for teammates to access.",
-        "command": "git branch -M main\ngit push -u origin main",
-        "media": [],
-        "items": [],
-        "id": 26
-      }
-    ],
-    "id": 23
-  },
-  {
-    "title": "Pull Requests and Collaboration",
-    "description": "Collaborate with teammates using Pull Requests (PRs). They make reviewing and merging code organized and reliable.",
-    "command": "",
-    "media": [],
-    "items": [
-      {
-        "title": "Create a Pull Request",
-        "description": "After pushing a branch, propose your changes by opening a Pull Request in Azure DevOps for feedback and approval.\n\n> **Azure DevOps Tip:** Go to **Repos → Pull Requests → New Pull Request**. Select your source branch (for example, `feature-update`) and target branch (`main`). Write a title, add reviewers, and click **Create**. Teammates can then review and comment before approval.\n\n> **VS Code GUI Tip:** If you install the **Azure Repos** extension, you can open pull requests, leave comments, and review feedback directly from VS Code without switching to the browser.",
+        "id": 18,
+        "title": "What Branches Are and Why They Matter",
+        "description": "In Git, **branches** are lightweight pointers that let you safely work on different features in parallel. Each branch acts like its own timeline — you can experiment freely without risking the main project. Once a branch reaches a stable point, merge it back into `main`.\n\n> **Tip:** Create separate branches for each new feature, bug fix, or change request. This keeps work isolated and simplifies collaboration.",
         "command": "",
         "media": [],
-        "items": [],
-        "id": 30
+        "items": []
       },
       {
-        "title": "Merge and Clean Up",
-        "description": "Once the Pull Request is approved and merged, delete the branch locally and remotely to keep your repository tidy.",
+        "id": 19,
+        "title": "View, Create, and Switch Branches",
+        "description": "You can list existing branches, create a new one, and switch between them. It’s best practice to branch off from `main` before starting new work.\n\n> **VS Code Tip:** Check the current branch name in the bottom-left corner. Click it to create or switch branches in the GUI.",
+        "command": "git branch # list branches\ngit branch feature-1   # create new branch\ngit checkout feature-1  # switch to feature branch",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 20,
+        "title": "Work Independently on Your Branch",
+        "description": "Once on your new branch, edit files, add commits, and build your feature just like you would on `main`. Everything you commit stays local to this branch until you merge it.\n\n> **Tip:** To check your branch anytime, run `git status` — Git always shows which branch you’re on.",
+        "command": "git add .\ngit commit -m \"Implement feature 1\"",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 21,
+        "title": "Merge Branches Safely",
+        "description": "When your work on `feature-1` is complete and tested, merge it into `main`. Merging combines your branch’s commits with those on `main`. If changes don’t overlap, Git merges automatically.\n\n> **VS Code Tip:** Switch back to `main` first, then open **Source Control → … → Merge Branch...**, and choose your feature branch.",
+        "command": "git checkout main\ngit merge feature-1",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 22,
+        "title": "Resolve Merge Conflicts (If They Happen)",
+        "description": "Conflicts occur when two branches modify the same part of a file differently. Git pauses the merge so you can decide which change to keep.\n\nTo fix conflicts:\n1. Open the conflicting files.\n2. Look for markers like `<<<<<<<`, `=======`, and `>>>>>>>`.\n3. Keep the correct sections, remove the markers.\n4. Stage and commit the resolved files.\n\n> **VS Code Tip:** VS Code highlights conflicts and gives you buttons like **Accept Current Change** or **Accept Incoming Change** to make resolution easier.",
+        "command": "git add .\ngit commit -m \"Resolve merge conflict\"",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 23,
+        "title": "Delete or Clean Up Old Branches",
+        "description": "Once a branch has been merged, delete it to keep your repository tidy. Removing old branches prevents confusion later.\n\n> **Tip:** You can safely delete a branch after merging. Your commits remain in the `main` branch history.",
+        "command": "git branch -d feature-1",
+        "media": [],
+        "items": []
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "title": "Connecting to Azure DevOps",
+    "description": "Connect your local Git repository to a remote in **Azure DevOps** so your code is safely backed up online and accessible to collaborators. Remote repositories allow your team to sync work, review changes, and maintain a single shared project history.",
+    "command": "",
+    "media": [],
+    "items": [
+      {
+        "id": 25,
+        "title": "Understand Local and Remote Repositories",
+        "description": "A **local repository** lives on your computer — it contains all commits, branches, and history. A **remote repository** (like one hosted in Azure DevOps) is stored in the cloud. Linking them allows you to push changes up and pull updates down whenever you need.\n\nThink of your remote as the *team server* — everyone’s updates meet there so you’re all on the same codebase.\n\n> **Tip:** You can connect to multiple remotes if needed, such as a company repo and a personal fork.",
+        "command": "",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 26,
+        "title": "Verify Your Local Repository",
+        "description": "Before linking to Azure DevOps, ensure your local repository is initialized and contains at least one commit. If not, create one first.",
+        "command": "git status\n# If not a git repo yet:\ngit init\ngit add .\ngit commit -m \"Initial commit\"",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 27,
+        "title": "Add a Remote Repository Link",
+        "description": "Use `git remote add` to link your local project to your Azure DevOps repository. After linking, Git knows where to sync your code.\n\n> **Azure DevOps Tip:** In your Azure DevOps project, go to **Repos → Files → Clone**, copy the HTTPS URL, and paste it into the command.  \n> Verify the link later using `git remote -v`.",
+        "command": "git remote add origin https://dev.azure.com/<org>/<project>/_git/<repo>",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 28,
+        "title": "Push Your Local Commits to Azure DevOps",
+        "description": "The first push publishes your local branch online and sets up tracking between your local and remote branches. After this, future pushes or pulls work automatically.\n\n> **VS Code Tip:** Click **Sync Changes** (two arrows in a circle) in the **Source Control** panel. VS Code will ask for your Azure DevOps credentials if it’s your first time.\n\n> **Azure DevOps Tip:** Go to **Repos → Files** to confirm your code appears in the remote repository.",
+        "command": "git branch -M main\ngit push -u origin main",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 29,
+        "title": "Verify the Remote Connection",
+        "description": "Check that your remote connection is configured correctly and points to your Azure DevOps URL.",
+        "command": "git remote -v",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 30,
+        "title": "Working with Remote Changes",
+        "description": "Once you’re connected, you can collaborate smoothly with others:\n\n- **git pull** — get the latest updates from the remote before you start new work.\n- **git push** — share your commits with teammates.\n- **git fetch** — view remote changes without merging them yet.\n\n> **Tip:** Make pulling before pushing a habit — this avoids merge conflicts and keeps everyone on the same page.",
+        "command": "git pull origin main\n# or preview updates without merging\ngit fetch origin",
+        "media": [],
+        "items": []
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "title": "Pull Requests and Collaboration",
+    "description": "Pull Requests (PRs) are a central part of working as a team in **Git** and **Azure DevOps**. They provide a structured way to review code, discuss changes, and safely merge them into the main branch. PRs make collaboration organized and transparent.",
+    "command": "",
+    "media": [],
+    "items": [
+      {
+        "id": 32,
+        "title": "What is a Pull Request?",
+        "description": "A **Pull Request (PR)** is a request to merge one branch into another — commonly your feature branch into `main`. It’s not just about merging code; it’s also a communication tool.\n\nPRs allow reviewers to:\n\n- See a summary of what you changed.\n- Comment on specific lines or sections.\n- Approve changes or suggest updates before merge.\n\n> **Tip:** Use clear titles and concise descriptions in your PR to help teammates understand your intent quickly.",
+        "command": "",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 33,
+        "title": "Create a Pull Request",
+        "description": "After pushing your branch to Azure DevOps, you can create a Pull Request to begin the review process.\n\n> **Azure DevOps Tip:** In Azure DevOps, go to **Repos → Pull Requests → New Pull Request**. Select your feature branch (for example, `feature-update`) as the source and `main` as the target. Add a description of your changes, assign reviewers, and click **Create**.\n\n> **VS Code Tip:** Install the **Azure Repos** extension to manage PRs directly in VS Code — you can view pull requests, comment inline, and approve merges without switching browsers.",
+        "command": "",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 34,
+        "title": "Review and Approve Changes",
+        "description": "Team members who are assigned as reviewers can go through the changes, leave comments, or mark the PR as approved. Once discussions are resolved and approval is granted, it’s ready to merge.\n\n> **Azure DevOps Tip:** Reviewers can use the **Files** tab in the Pull Request window to inspect line-by-line differences. Use the **Complete** button after approval to merge automatically and close the branch.",
+        "command": "",
+        "media": [],
+        "items": []
+      },
+      {
+        "id": 35,
+        "title": "Merge and Clean Up Branches",
+        "description": "After a Pull Request has been merged, it’s best practice to delete the feature branch both locally and remotely. This keeps your repository clean and avoids confusion later.\n\n> **Tip:** Deleting a branch after merging doesn’t remove its commits — they remain part of the main branch history.",
         "command": "git branch -d feature-update\ngit push origin --delete feature-update",
         "media": [],
-        "items": [],
-        "id": 33
+        "items": []
       }
-    ],
-    "id": 29
+    ]
   },
   {
     "title": "Troubleshooting and Best Practices",
@@ -201,7 +306,7 @@
         "command": "git restore <filename>",
         "media": [],
         "items": [],
-        "id": 35
+        "id": 37
       },
       {
         "title": "Undo Last Commit but Keep Work",
@@ -209,7 +314,7 @@
         "command": "git reset --soft HEAD~1",
         "media": [],
         "items": [],
-        "id": 36
+        "id": 38
       },
       {
         "title": "Revert a Specific Commit",
@@ -217,7 +322,7 @@
         "command": "git revert <commit-id>",
         "media": [],
         "items": [],
-        "id": 37
+        "id": 39
       },
       {
         "title": "Good Habits",
@@ -225,10 +330,10 @@
         "command": "",
         "media": [],
         "items": [],
-        "id": 38
+        "id": 40
       }
     ],
-    "id": 34
+    "id": 36
   },
   {
     "title": "Git Command Cheatsheet",
@@ -236,10 +341,11 @@
     "command": "",
     "media": [
       {
-        "path": "cheatsheet.md"
+        "path": "cheatsheet.md",
+        "variant": "markdown"
       }
     ],
     "items": [],
-    "id": 39
+    "id": 41
   }
 ]
