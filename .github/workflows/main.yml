@@ -22,5 +22,5 @@ jobs:
           cache: 'pnpm'
 
       - run: pnpm install
-      - run: pnpm ng build --configuration production --base-href "https://afhamsyahir.github.io/GitForNoob/"
+      - run: pnpm ng build --base-href "https://afhamsyahir.github.io/GitForNoob/"
       - run: pnpm exec angular-cli-ghpages --dir=dist/GitForNoob/browser

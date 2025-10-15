@@ -1,5 +1,6 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,9 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 })
 export class Header implements OnInit {
   private readonly document = inject(DOCUMENT);
-  isDarkMode = signal(false);
+  private readonly themeService = inject(ThemeService);
+
+  isDarkMode = this.themeService.isDarkMode;
 
   ngOnInit() {
     // Check for saved theme preference or default to light mode
@@ -18,13 +21,13 @@ export class Header implements OnInit {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
-    this.isDarkMode.set(isDark);
+    this.themeService.setDarkMode(isDark);
     this.applyTheme(isDark);
   }
 
   toggleDarkMode() {
     const newValue = !this.isDarkMode();
-    this.isDarkMode.set(newValue);
+    this.themeService.setDarkMode(newValue);
     this.applyTheme(newValue);
     localStorage.setItem('theme', newValue ? 'dark' : 'light');
   }

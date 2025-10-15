@@ -1,10 +1,11 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
-import { Component, input, signal, effect } from '@angular/core';
+import { Component, input, signal, effect, inject } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ContentItem } from '../home/home';
+import { ContentItem, MediaItem } from '../home/home';
 import { marked } from 'marked';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-content',
@@ -16,53 +17,56 @@ import { HttpClient } from '@angular/common/http';
 export class Content {
   items = input<ContentItem[]>([]);
   copiedCommand = signal<string | null>(null);
-  copiedMarkdown = signal<string | null>(null);
-  markdownContent = signal<Map<string, string>>(new Map());
+  copiedFileContent = signal<string | null>(null);
+  fileContent = signal<Map<string, string>>(new Map());
+
+  private readonly themeService = inject(ThemeService);
+  isDarkMode = this.themeService.isDarkMode;
 
   constructor(private readonly sanitizer: DomSanitizer, private readonly http: HttpClient) {
-    // Load markdown files when items change
+    // Load text/markdown files when items change
     effect(() => {
       const currentItems = this.items();
-      this.loadAllMarkdownFiles(currentItems);
+      this.loadAllTextFiles(currentItems);
     });
   }
 
-  private loadAllMarkdownFiles(items: ContentItem[]) {
+  private loadAllTextFiles(items: ContentItem[]) {
     items.forEach((item) => {
       if (item.media && item.media.length > 0) {
         item.media.forEach((mediaItem) => {
-          if (mediaItem.path && this.isMarkdownFile(mediaItem.path)) {
-            this.loadMarkdownFile(mediaItem.path);
+          if (mediaItem.path && this.isTextFile(mediaItem.path)) {
+            this.loadTextFile(mediaItem.path);
           }
         });
       }
       if (item.items && item.items.length > 0) {
-        this.loadAllMarkdownFiles(item.items);
+        this.loadAllTextFiles(item.items);
       }
     });
   }
 
-  private loadMarkdownFile(filePath: string) {
+  private loadTextFile(filePath: string) {
     // Only load if not already loaded
-    if (!this.markdownContent().has(filePath)) {
+    if (!this.fileContent().has(filePath)) {
       this.http.get(filePath, { responseType: 'text' }).subscribe({
         next: (content) => {
-          const currentMap = new Map(this.markdownContent());
+          const currentMap = new Map(this.fileContent());
           currentMap.set(filePath, content);
-          this.markdownContent.set(currentMap);
+          this.fileContent.set(currentMap);
         },
         error: (error) => {
-          console.error(`Failed to load markdown file: ${filePath}`, error);
-          const currentMap = new Map(this.markdownContent());
+          console.error(`Failed to load file: ${filePath}`, error);
+          const currentMap = new Map(this.fileContent());
           currentMap.set(filePath, `Error loading file: ${filePath}`);
-          this.markdownContent.set(currentMap);
+          this.fileContent.set(currentMap);
         },
       });
     }
   }
 
-  getMarkdownContent(filePath: string): string {
-    return this.markdownContent().get(filePath) || 'Loading...';
+  getFileContent(filePath: string): string {
+    return this.fileContent().get(filePath) || 'Loading...';
   }
 
   copyToClipboard(text: string) {
@@ -72,10 +76,10 @@ export class Content {
     });
   }
 
-  copyMarkdownToClipboard(text: string) {
+  copyFileContentToClipboard(text: string) {
     navigator.clipboard.writeText(text).then(() => {
-      this.copiedMarkdown.set(text);
-      setTimeout(() => this.copiedMarkdown.set(null), 5000);
+      this.copiedFileContent.set(text);
+      setTimeout(() => this.copiedFileContent.set(null), 5000);
     });
   }
 
@@ -83,6 +87,12 @@ export class Content {
     if (!media || typeof media !== 'string') return false;
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp'];
     return imageExtensions.some((ext) => media.toLowerCase().endsWith(ext));
+  }
+
+  isTextFile(media: string): boolean {
+    if (!media || typeof media !== 'string') return false;
+    // Text files include markdown and other plain text files
+    return !this.isImageFile(media);
   }
 
   isMarkdownFile(media: string): boolean {
@@ -100,5 +110,21 @@ export class Content {
     // If an async parse ever occurs (rare):
     htmlOrPromise.then(() => {}); // do nothing or handle asynchronously
     return this.sanitizer.bypassSecurityTrustHtml('');
+  }
+
+  filterMediaByTheme(mediaItems: MediaItem[]): MediaItem[] {
+    if (!mediaItems || mediaItems.length === 0) return [];
+
+    const currentTheme = this.isDarkMode() ? 'dark' : 'light';
+
+    // Filter media items that match the current theme or are markdown (always shown)
+    return mediaItems.filter(
+      (item) =>
+        item.variant === currentTheme || item.variant === 'markdown' || item.variant === 'common'
+    );
+  }
+
+  getAspectRatioStyle(ratio?: string): string {
+    return ratio || '';
   }
 }

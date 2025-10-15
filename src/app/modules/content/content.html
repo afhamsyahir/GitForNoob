@@ -1,6 +1,6 @@
 <div>
   @for (item of items(); track item.id) {
-  <div [id]="item.id.toString()" class="scroll-mt-20">
+  <div [id]="item.id.toString()" class="mb-20 scroll-mt-20">
     <!-- Main Section -->
     <div>
       <h1 class="text-3xl font-semibold leading-tight mb-4 text-foreground">
@@ -11,12 +11,14 @@
         [innerHTML]="renderDescription(item.description)"
       ></div>
 
-      @if (item.command) {
+      @if (item.commands && item.commands.length > 0) {
       <ng-container
-        *ngTemplateOutlet="commandBlock; context: { command: item.command }"
+        *ngTemplateOutlet="commandsBlock; context: { commands: item.commands }"
       ></ng-container>
       } @if (item.media && item.media.length > 0) {
-      <ng-container *ngTemplateOutlet="mediaBlock; context: { media: item.media }"></ng-container>
+      <ng-container
+        *ngTemplateOutlet="mediaBlock; context: { media: filterMediaByTheme(item.media) }"
+      ></ng-container>
       }
     </div>
 
@@ -35,13 +37,13 @@
           [innerHTML]="renderDescription(subItem.description)"
         ></div>
 
-        @if (subItem.command) {
+        @if (subItem.commands && subItem.commands.length > 0) {
         <ng-container
-          *ngTemplateOutlet="commandBlock; context: { command: subItem.command }"
+          *ngTemplateOutlet="commandsBlock; context: { commands: subItem.commands }"
         ></ng-container>
         } @if (subItem.media && subItem.media.length > 0) {
         <ng-container
-          *ngTemplateOutlet="mediaBlock; context: { media: subItem.media }"
+          *ngTemplateOutlet="mediaBlock; context: { media: filterMediaByTheme(subItem.media) }"
         ></ng-container>
         }
 
@@ -58,13 +60,16 @@
               [innerHTML]="renderDescription(nestedItem.description)"
             ></div>
 
-            @if (nestedItem.command) {
+            @if (nestedItem.commands && nestedItem.commands.length > 0) {
             <ng-container
-              *ngTemplateOutlet="commandBlock; context: { command: nestedItem.command }"
+              *ngTemplateOutlet="commandsBlock; context: { commands: nestedItem.commands }"
             ></ng-container>
             } @if (nestedItem.media && nestedItem.media.length > 0) {
             <ng-container
-              *ngTemplateOutlet="mediaBlock; context: { media: nestedItem.media }"
+              *ngTemplateOutlet="
+                mediaBlock;
+                context: { media: filterMediaByTheme(nestedItem.media) }
+              "
             ></ng-container>
             }
           </div>
@@ -79,33 +84,40 @@
   }
 </div>
 
-<ng-template #commandBlock let-command="command">
-  <div
-    class="rounded-lg bg-zinc-100 dark:bg-zinc-900 relative group border border-zinc-200 dark:border-zinc-800"
-  >
+<ng-template #commandsBlock let-commands="commands">
+  <div class="space-y-3">
+    @for (cmd of commands; track $index) {
     <div
-      class="flex items-center justify-between px-4 py-2 border-b border-zinc-200 dark:border-zinc-800"
+      class="rounded-lg bg-zinc-100 dark:bg-zinc-900 relative group border border-zinc-200 dark:border-zinc-800"
     >
-      <ng-container *ngTemplateOutlet="terminalIcon"></ng-container>
-      <button
-        (click)="copyToClipboard(command)"
-        class="p-1 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors"
-        [matTooltip]="copiedCommand() === command ? 'Copied!' : 'Copy to clipboard'"
-        matTooltipPosition="above"
+      <div
+        class="flex items-center justify-between px-4 py-2 border-b border-zinc-200 dark:border-zinc-800"
       >
-        @if (copiedCommand() === command) {
-        <ng-container *ngTemplateOutlet="checkIcon"></ng-container>
-        } @else {
-        <ng-container *ngTemplateOutlet="copyIcon"></ng-container>
-        }
-      </button>
-    </div>
+        <div class="flex items-center gap-2">
+          <ng-container *ngTemplateOutlet="terminalIcon"></ng-container>
+          <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ cmd.name }}</span>
+        </div>
+        <button
+          (click)="copyToClipboard(cmd.action)"
+          class="p-1 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors"
+          [matTooltip]="copiedCommand() === cmd.action ? 'Copied!' : 'Copy to clipboard'"
+          matTooltipPosition="above"
+        >
+          @if (copiedCommand() === cmd.action) {
+          <ng-container *ngTemplateOutlet="checkIcon"></ng-container>
+          } @else {
+          <ng-container *ngTemplateOutlet="copyIcon"></ng-container>
+          }
+        </button>
+      </div>
 
-    <div class="p-4 overflow-x-auto">
-      <pre
-        class="m-0 text-sm whitespace-pre text-zinc-900 dark:text-zinc-100"
-      ><code>{{ command }}</code></pre>
+      <div class="p-4 overflow-x-auto">
+        <pre
+          class="m-0 text-sm whitespace-pre text-zinc-900 dark:text-zinc-100"
+        ><code>{{ cmd.action }}@if (cmd.description) {<span class="text-zinc-500 dark:text-zinc-400"> # {{ cmd.description }}</span>}</code></pre>
+      </div>
     </div>
+    }
   </div>
 </ng-template>
 
@@ -113,11 +125,20 @@
   <div class="mt-4 space-y-4">
     @for (mediaItem of media; track mediaItem.path) { @if (isImageFile(mediaItem.path)) {
     <!-- Image Display -->
-    <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-      <img [src]="mediaItem.path" [alt]="mediaItem.path" class="w-full h-auto" loading="lazy" />
+    <div
+      class="rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden w-fit"
+      style="max-width: min(600px, 100%)"
+      [style.aspect-ratio]="getAspectRatioStyle(mediaItem.ratio)"
+    >
+      <img
+        [src]="mediaItem.path"
+        [alt]="mediaItem.path"
+        [class]="mediaItem.ratio ? 'h-full object-contain block' : 'h-auto block max-w-full'"
+        loading="lazy"
+      />
     </div>
-    } @else if (isMarkdownFile(mediaItem.path)) {
-    <!-- Markdown File with Copy -->
+    } @else if (isTextFile(mediaItem.path)) {
+    <!-- Text/Markdown File with Copy -->
     <div
       class="rounded-lg bg-zinc-100 dark:bg-zinc-900 relative group border border-zinc-200 dark:border-zinc-800"
     >
@@ -127,18 +148,18 @@
         <div class="flex items-center gap-2">
           <ng-container *ngTemplateOutlet="fileIcon"></ng-container>
           <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">{{
-            mediaItem.path
+            mediaItem.title || mediaItem.path
           }}</span>
         </div>
         <button
-          (click)="copyMarkdownToClipboard(getMarkdownContent(mediaItem.path))"
+          (click)="copyFileContentToClipboard(getFileContent(mediaItem.path))"
           class="p-1 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors"
           [matTooltip]="
-            copiedMarkdown() === getMarkdownContent(mediaItem.path) ? 'Copied!' : 'Copy content'
+            copiedFileContent() === getFileContent(mediaItem.path) ? 'Copied!' : 'Copy content'
           "
           matTooltipPosition="above"
         >
-          @if (copiedMarkdown() === getMarkdownContent(mediaItem.path)) {
+          @if (copiedFileContent() === getFileContent(mediaItem.path)) {
           <ng-container *ngTemplateOutlet="checkIcon"></ng-container>
           } @else {
           <ng-container *ngTemplateOutlet="copyIcon"></ng-container>
@@ -148,7 +169,7 @@
       <div class="p-4 overflow-x-auto">
         <pre
           class="m-0 text-sm whitespace-pre-wrap text-zinc-900 dark:text-zinc-100"
-        ><code>{{ getMarkdownContent(mediaItem.path) }}</code></pre>
+        ><code>{{ getFileContent(mediaItem.path) }}</code></pre>
       </div>
     </div>
     } }

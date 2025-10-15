@@ -8,13 +8,22 @@ import { Footer } from '../footer/footer';
 
 export interface MediaItem {
   path: string;
+  variant: 'light' | 'dark' | 'markdown' | 'common';
+  ratio?: string; // Optional aspect ratio in CSS format like "3/2", "16/9", "4/3", "1/1"
+  title?: string; // Optional display title (if different from path)
+}
+
+export interface CommandItem {
+  name: string;
+  action: string;
+  description?: string; // Optional comment/description for the command
 }
 
 export interface ContentItem {
   id: number;
   title: string;
   description: string;
-  command: string;
+  commands: CommandItem[];
   media: MediaItem[];
   items: ContentItem[];
 }
@@ -32,7 +41,7 @@ export class Home implements OnInit {
   constructor(private readonly http: HttpClient) {}
 
   ngOnInit() {
-    this.http.get<ContentItem[]>('/json/content.json').subscribe((data) => {
+    this.http.get<ContentItem[]>('json/new-content.json').subscribe((data) => {
       this.contentData.set(data);
     });
   }
