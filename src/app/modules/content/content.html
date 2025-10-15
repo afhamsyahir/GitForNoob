@@ -1,6 +1,6 @@
 <div>
-  @for (item of items(); track item.id) {
-  <div [id]="item.id.toString()" class="mb-20 scroll-mt-20">
+  @for (item of items(); track $index) {
+  <div [id]="item.id.toString()" class="scroll-mt-20">
     <!-- Main Section -->
     <div>
       <h1 class="text-3xl font-semibold leading-tight mb-4 text-foreground">
@@ -25,7 +25,7 @@
     <!-- Sub Items -->
     @if (item.items && item.items.length > 0) {
     <div class="mt-12">
-      @for (subItem of item.items; track subItem.id) {
+      @for (subItem of item.items; track $index) {
       <div [id]="subItem.id.toString()" class="mb-12 scroll-mt-20">
         <h2
           class="text-xl font-medium pb-2 border-b border-zinc-200 dark:border-zinc-800 mb-4 text-foreground"
@@ -50,7 +50,7 @@
         <!-- Nested Sub Items -->
         @if (subItem.items && subItem.items.length > 0) {
         <div class="mt-8">
-          @for (nestedItem of subItem.items; track nestedItem.id) {
+          @for (nestedItem of subItem.items; track $index) {
           <div [id]="nestedItem.id.toString()" class="mb-8 scroll-mt-20">
             <h3 class="text-xl font-medium leading-snug mb-3 text-foreground">
               {{ nestedItem.title }}
@@ -123,17 +123,17 @@
 
 <ng-template #mediaBlock let-media="media">
   <div class="mt-4 space-y-4">
-    @for (mediaItem of media; track mediaItem.path) { @if (isImageFile(mediaItem.path)) {
+    @for (mediaItem of media; track $index) { @if (isImageFile(mediaItem.path)) {
     <!-- Image Display -->
     <div
-      class="rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden w-fit"
+      class="rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden w-fit cursor-pointer hover:opacity-90 transition-opacity"
       style="max-width: min(600px, 100%)"
-      [style.aspect-ratio]="getAspectRatioStyle(mediaItem.ratio)"
+      (click)="openImageZoom(mediaItem.path)"
     >
       <img
         [src]="mediaItem.path"
         [alt]="mediaItem.path"
-        [class]="mediaItem.ratio ? 'h-full object-contain block' : 'h-auto block max-w-full'"
+        class="h-auto block max-w-full"
         loading="lazy"
       />
     </div>
@@ -238,3 +238,46 @@
     <path d="M20 6 9 17l-5-5" />
   </svg>
 </ng-template>
+
+<!-- Image Zoom Modal -->
+@if (zoomedImage()) {
+<div
+  [class]="
+    'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm zoom-backdrop' +
+    (isClosingZoom() ? ' closing' : '')
+  "
+  (click)="closeImageZoom()"
+>
+  <div
+    [class]="
+      'relative max-w-5xl max-h-[90vh] w-auto zoom-content' + (isClosingZoom() ? ' closing' : '')
+    "
+  >
+    <button
+      class="absolute -top-10 right-0 text-white hover:text-zinc-300 transition-colors zoom-close-button"
+      (click)="closeImageZoom()"
+      aria-label="Close image"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="size-8"
+      >
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+      </svg>
+    </button>
+    <img
+      [src]="zoomedImage()"
+      [alt]="zoomedImage()"
+      class="max-w-full max-h-[80vh] w-auto h-auto rounded-lg shadow-2xl"
+      (click)="$event.stopPropagation()"
+    />
+  </div>
+</div>
+}

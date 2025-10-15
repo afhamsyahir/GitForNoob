@@ -19,6 +19,8 @@ export class Content {
   copiedCommand = signal<string | null>(null);
   copiedFileContent = signal<string | null>(null);
   fileContent = signal<Map<string, string>>(new Map());
+  zoomedImage = signal<string | null>(null);
+  isClosingZoom = signal<boolean>(false);
 
   private readonly themeService = inject(ThemeService);
   isDarkMode = this.themeService.isDarkMode;
@@ -124,9 +126,17 @@ export class Content {
     );
   }
 
-  getAspectRatioStyle(ratio?: string): string {
-    return ratio || '';
+  openImageZoom(imagePath: string) {
+    this.isClosingZoom.set(false);
+    this.zoomedImage.set(imagePath);
   }
 
-  //comment for testing
+  closeImageZoom() {
+    this.isClosingZoom.set(true);
+    // Wait for animation to complete before removing from DOM
+    setTimeout(() => {
+      this.zoomedImage.set(null);
+      this.isClosingZoom.set(false);
+    }, 200); // Match the longest animation duration (0.2s)
+  }
 }

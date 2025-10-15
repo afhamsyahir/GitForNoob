@@ -1,5 +1,5 @@
 <header
-  class="sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+  class="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
 >
   <div class="flex h-14 items-center justify-between px-6">
     <!-- Logo -->
@@ -8,18 +8,34 @@
       <span class="text-md font-semibold">GitForNoob</span>
     </div>
 
-    <!-- Dark Mode Toggle -->
-    <button
-      (click)="toggleDarkMode()"
-      class="flex items-center justify-center size-7 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-      [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
-    >
-      @if (isDarkMode()) {
-      <ng-container *ngTemplateOutlet="sunIcon"></ng-container>
-      } @else {
-      <ng-container *ngTemplateOutlet="moonIcon"></ng-container>
-      }
-    </button>
+    <!-- Right Side Actions -->
+    <div class="flex items-center gap-2">
+      <!-- Dark Mode Toggle -->
+      <button
+        (click)="toggleDarkMode()"
+        class="flex items-center justify-center size-9 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+        [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
+      >
+        @if (isDarkMode()) {
+        <ng-container *ngTemplateOutlet="sunIcon"></ng-container>
+        } @else {
+        <ng-container *ngTemplateOutlet="moonIcon"></ng-container>
+        }
+      </button>
+
+      <!-- Mobile Menu Toggle -->
+      <button
+        (click)="toggleMenu.emit()"
+        class="lg:hidden flex items-center justify-center size-9 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+        [attr.aria-label]="isMobileMenuOpen() ? 'Close menu' : 'Open menu'"
+      >
+        <div class="hamburger-icon" [class.open]="isMobileMenuOpen()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+    </div>
   </div>
 </header>
 

@@ -294,6 +294,12 @@
             "action": "git merge feature-1",
             "description": "Combines changes from one branch into another."
           }
+        ],
+        "media": [
+          {
+            "path": "images/git-branch-merge.webp",
+            "variant": "common"
+          }
         ]
       },
       {

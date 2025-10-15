@@ -1,4 +1,4 @@
-import { Component, input, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, input, signal, OnInit, OnDestroy, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContentItem } from '../home/home';
 
@@ -12,6 +12,7 @@ import { ContentItem } from '../home/home';
 export class Sidebar implements OnInit, OnDestroy {
   items = input<ContentItem[]>([]);
   activeSection = signal<string>('');
+  navigate = output<void>();
   private scrollListener?: () => void;
   private rafId?: number;
   private lastKnownScrollPosition = 0;
@@ -99,5 +100,8 @@ export class Sidebar implements OnInit, OnDestroy {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
+
+    // Emit navigation event to close mobile menu
+    this.navigate.emit();
   }
 }

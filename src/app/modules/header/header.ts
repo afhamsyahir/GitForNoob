@@ -1,11 +1,11 @@
-import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule, DOCUMENT, NgTemplateOutlet } from '@angular/common';
+import { Component, inject, OnInit, input, output } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgTemplateOutlet],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -14,6 +14,8 @@ export class Header implements OnInit {
   private readonly themeService = inject(ThemeService);
 
   isDarkMode = this.themeService.isDarkMode;
+  isMobileMenuOpen = input<boolean>(false);
+  toggleMenu = output<void>();
 
   ngOnInit() {
     // Check for saved theme preference or default to light mode
