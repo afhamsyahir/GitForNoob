@@ -451,42 +451,134 @@
   {
     "id": 31,
     "title": "Connecting to Azure DevOps",
-    "description": "After you grasp general Git remotes, it’s time to apply them in **Azure DevOps**. Azure DevOps combines Git’s power with project tracking, pipelines, and code reviews in one place. Here you’ll learn how to create a repository, connect it, and confirm your changes through its web interface.",
+    "description": "After understanding how Git remotes work, the next step is applying them in **Azure DevOps**. Azure DevOps combines Git’s version control with project management, pipelines, and code reviews. In this section, you’ll learn how to create a repository, connect your local project, and safely collaborate through branches and pull requests.\n\nWhen you first connect a local project to an Azure DevOps repository, Git will typically check out the default branch — usually named `main`. It’s important to know that the `main` branch often has protection policies or restrictions to prevent accidental changes.\n\n> **Best Practice:** Avoid pushing directly to the `main` branch. Instead, create feature branches for your work and merge them back into `main` through a Pull Request (PR). This ensures code reviews, testing, and compliance with your team’s quality standards before updates go live.",
     "media": [],
     "items": [
       {
         "id": 32,
         "title": "Create or Access a Repository",
-        "description": "In **Azure DevOps → Repos → Files**, you can create a new repository or open an existing team project. Each project can hold multiple repositories for different components. The web interface shows branches, commits, and pull requests all in one dashboard.",
+        "description": "In **Azure DevOps → Repos → Files**, you can create a new repository or open an existing team project. Each project can hold multiple repositories for different components. The web interface displays branches, commits, and pull requests in a unified dashboard.",
         "commands": []
       },
       {
         "id": 33,
         "title": "Get the Repository URL",
-        "description": "Use the **Clone** button in your Azure DevOps repository to copy the HTTPS URL. It looks like `https://dev.azure.com/org/project/_git/repo`. This is the web address your local repo will talk to when you push or pull.",
-        "commands": []
-      },
-      {
-        "id": 34,
-        "title": "Push Local Code to Azure DevOps",
-        "description": "Once your project is initialized, link it to Azure DevOps using `git remote add` and push your commits online. After this, the connection remains for all updates.\n\n> **VS Code Tip:** Clicking **Sync Changes** in *Source Control* will push commits directly while showing progress in the status bar.",
-        "commands": [
+        "description": "Use the **Clone** button in your Azure DevOps repository to copy the HTTPS URL. It typically looks like `https://dev.azure.com/org/project/_git/repo`. This URL is your main connection point between the local and remote repositories for pushing and pulling updates.",
+        "commands": [],
+        "media": [
           {
-            "name": "Terminal",
-            "action": "git remote add origin https://dev.azure.com/<org>/<project>/_git/<repo>",
-            "description": "Adds a new remote connection by name and URL."
-          },
-          {
-            "name": "Terminal",
-            "action": "git push -u origin main",
-            "description": "Uploads local commits to a remote repository."
+            "path": "images/azure-clone.webp",
+            "variant": "common"
           }
         ]
       },
       {
+        "id": 34,
+        "title": "Push Local Code to Azure DevOps",
+        "description": "Once your local repository is initialized and connected, you can commit changes and push them to the cloud. By default, your local checkout will be on the `main` branch after connecting—however, it’s recommended to create a dedicated branch before pushing new work.\n\n> **Tip:** Create a branch before you start a new feature, for example: `git checkout -b feature/new-ui`. After finishing and reviewing your changes, you can merge them into `main` via a Pull Request.\n\n> **VS Code Tip:** Clicking **Sync Changes** in *Source Control* will push commits directly while showing progress in the status bar.",
+        "commands": [
+          {
+            "name": "Terminal",
+            "action": "git push -u origin main",
+            "description": "Uploads local commits to the remote repository. (Avoid doing this on main for new features—use a branch instead.)"
+          }
+        ],
+        "media": [
+          {
+            "path": "images/azure-push.webp",
+            "variant": "common"
+          }
+        ]
+      },
+      {
+        "id": 34.5,
+        "title": "Common Branching and Merging Strategies",
+        "description": "Different teams adopt specific branching and merging strategies to maintain organized repositories and smooth collaboration. Below are some of the most common approaches used across the industry:",
+        "media": [],
+        "items": [
+          {
+            "id": 34.51,
+            "title": "Feature Branch Workflow",
+            "description": "Every new feature or bug fix is developed in a dedicated branch (e.g., `feature/auth-system`). Once the work is complete, a Pull Request (PR) is created to merge it back into the main branch. This isolates feature development, simplifies code review, and keeps the main branch stable.",
+            "media": [
+              {
+                "path": "images/git-feature-branch-light.webp",
+                "variant": "light"
+              },
+              {
+                "path": "images/git-feature-branch-dark.webp",
+                "variant": "dark"
+              }
+            ],
+            "commands": []
+          },
+          {
+            "id": 34.52,
+            "title": "Fast-Forward Merge",
+            "description": "A fast-forward merge occurs when the target branch has not diverged from the feature branch. In this case, Git simply moves the branch pointer forward to include the new commits. This method keeps the commit history linear and clean.",
+            "media": [
+              {
+                "path": "images/git-fast-forward-light.webp",
+                "variant": "light"
+              },
+              {
+                "path": "images/git-fast-forward-dark.webp",
+                "variant": "dark"
+              }
+            ],
+            "commands": []
+          },
+          {
+            "id": 34.53,
+            "title": "No Fast-Forward (Merge Commit)",
+            "description": "Some teams prefer to disable fast-forward merges to ensure a merge commit is always created. This makes it clear when branches were integrated and helps track features or fixes in project history.",
+            "media": [
+              {
+                "path": "images/git-no-fast-forward-light.webp",
+                "variant": "light"
+              },
+              {
+                "path": "images/git-no-fast-forward-dark.webp",
+                "variant": "dark"
+              }
+            ],
+            "commands": []
+          },
+          {
+            "id": 34.54,
+            "title": "Rebase Workflow",
+            "description": "Rebasing allows developers to move or 'replay' feature branch commits on top of another branch, typically `main`. This results in a clean, linear history but should be used carefully to avoid overwriting shared work.",
+            "media": [
+              {
+                "path": "images/git-rebase-light.webp",
+                "variant": "light"
+              },
+              {
+                "path": "images/git-rebase-dark.webp",
+                "variant": "dark"
+              }
+            ],
+            "commands": []
+          },
+          {
+            "id": 34.55,
+            "title": "Protected Branch Policies",
+            "description": "In Azure DevOps, critical branches like `main` or `release` are often protected with policies. These can require successful builds, code reviews, or approval checks before merging. Protected policies ensure code quality and safeguard production‑ready code.",
+            "media": [
+              {
+                "path": "images/protected-branch.webp",
+                "variant": "diagram"
+              }
+            ],
+            "commands": []
+          }
+        ],
+        "commands": []
+      },
+      {
         "id": 35,
         "title": "Confirm Your Upload",
-        "description": "Visit **Repos → Files** in Azure DevOps to verify that your project files appear. You’ll see commit history on the right—proof that your local work now lives safely in the remote repository.",
+        "description": "Visit **Repos → Files** in Azure DevOps to confirm that your project files have been uploaded. You’ll see commit history on the right—proof that your local work now exists safely in the remote repository. If you used a feature branch, you can now open a Pull Request to merge your changes into `main` once reviewed.",
         "commands": []
       }
     ],
@@ -508,7 +600,13 @@
         "id": 38,
         "title": "Create a Pull Request in Azure DevOps",
         "description": "Once you’ve pushed your branch, open **Azure DevOps → Repos → Pull Requests → New Pull Request**. Choose your feature branch as the source and `main` as the destination. Write a brief title, explain the purpose, and assign reviewers.\n\n> **VS Code Tip:** With the **Azure Repos** extension, you can open, comment, and approve PRs directly within VS Code.",
-        "commands": []
+        "commands": [],
+        "media": [
+          {
+            "path": "images/azure-create-pr.webp",
+            "variant": "common"
+          }
+        ]
       },
       {
         "id": 39,
