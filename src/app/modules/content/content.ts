@@ -1,5 +1,5 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
-import { Component, input, signal, effect, inject } from '@angular/core';
+import { Component, input, signal, effect, inject, output } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ContentItem, MediaItem } from '../home/home';
 import { marked } from 'marked';
@@ -16,6 +16,8 @@ import { ThemeService } from '../../services/theme.service';
 })
 export class Content {
   items = input<ContentItem[]>([]);
+  sectionIds = output<string[]>();
+
   copiedCommand = signal<string | null>(null);
   copiedFileContent = signal<string | null>(null);
   fileContent = signal<Map<string, string>>(new Map());
@@ -31,7 +33,54 @@ export class Content {
     effect(() => {
       const currentItems = this.items();
       this.loadAllTextFiles(currentItems);
+
+      // Extract and emit all section IDs for the observer
+      const ids = this.extractAllIds(currentItems);
+      this.sectionIds.emit(ids);
     });
+
+    // Handle ESC key to close zoom modal
+    effect(() => {
+      const isZoomed = this.zoomedImage();
+
+      if (isZoomed) {
+        const handleEscape = (event: KeyboardEvent) => {
+          if (event.key === 'Escape') {
+            this.closeImageZoom();
+          }
+        };
+
+        document.addEventListener('keydown', handleEscape);
+
+        // Cleanup when zoom is closed
+        return () => {
+          document.removeEventListener('keydown', handleEscape);
+        };
+      }
+
+      return () => {}; // No cleanup needed when not zoomed
+    });
+  }
+
+  /**
+   * Recursively extracts all IDs from content items (including nested items)
+   * @param items - Array of content items to extract IDs from
+   * @returns Array of all section IDs in order
+   */
+  private extractAllIds(items: ContentItem[]): string[] {
+    const ids: string[] = [];
+
+    const traverse = (contentItems: ContentItem[]) => {
+      contentItems.forEach((item) => {
+        ids.push(item.id.toString());
+        if (item.items && item.items.length > 0) {
+          traverse(item.items);
+        }
+      });
+    };
+
+    traverse(items);
+    return ids;
   }
 
   private loadAllTextFiles(items: ContentItem[]) {

@@ -6,6 +6,7 @@ import { Sidebar } from '../sidebar/sidebar';
 import { Content } from '../content/content';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
+import { SectionObserverDirective } from '../../directives/section-observer.directive';
 
 export interface MediaItem {
   path: string;
@@ -31,7 +32,7 @@ export interface ContentItem {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Sidebar, Content, Header, Footer],
+  imports: [CommonModule, Sidebar, Content, Header, Footer, SectionObserverDirective],
   templateUrl: './home.html',
   styleUrl: './home.scss',
   animations: [
@@ -73,6 +74,8 @@ export class Home implements OnInit {
   contentData = signal<ContentItem[]>([]);
   isMobileMenuOpen = signal<boolean>(false);
   isLoading = signal<boolean>(true);
+  sectionIds = signal<string[]>([]);
+  activeId = signal<string>('');
 
   constructor(private readonly http: HttpClient) {}
 
@@ -92,5 +95,13 @@ export class Home implements OnInit {
 
   closeMobileMenu() {
     this.isMobileMenuOpen.set(false);
+  }
+
+  onSectionIds(ids: string[]) {
+    this.sectionIds.set(ids);
+  }
+
+  onActiveId(id: string) {
+    this.activeId.set(id);
   }
 }
