@@ -521,6 +521,22 @@
         "items": [
           {
             "id": 39,
+            "title": "Direct Commit to Main (Basic Workflow)",
+            "description": "In the earliest stages of a project or when working alone, developers may commit directly to the `main` branch. All changes happen in a single line of history — edits, commits, and pushes go straight into the production branch.\n\nWhile this is simple, it can become risky once multiple people start contributing. A direct commit may accidentally introduce breaking changes, overwrite others’ work, or fail a production build.\n\n> **Good to Know:** Most teams move away from this approach and adopt structured branching strategies (like feature branches or pull requests) to ensure each update is reviewed, tested, and integrated safely.",
+            "media": [
+              {
+                "path": "images/git-basic-light.webp",
+                "variant": "light"
+              },
+              {
+                "path": "images/git-basic-dark.webp",
+                "variant": "dark"
+              }
+            ],
+            "commands": []
+          },
+          {
+            "id": 40,
             "title": "Feature Branch Workflow",
             "description": "Every new feature or bug fix is developed in a dedicated branch (e.g., `feature/auth-system`). Once the work is complete, a Pull Request (PR) is created to merge it back into the main branch. This isolates feature development, simplifies code review, and keeps the main branch stable.",
             "media": [
@@ -536,7 +552,7 @@
             "commands": []
           },
           {
-            "id": 40,
+            "id": 41,
             "title": "Fast-Forward Merge",
             "description": "A fast-forward merge occurs when the target branch has not diverged from the feature branch. In this case, Git simply moves the branch pointer forward to include the new commits. This method keeps the commit history linear and clean.",
             "media": [
@@ -552,7 +568,7 @@
             "commands": []
           },
           {
-            "id": 41,
+            "id": 42,
             "title": "No Fast-Forward (Merge Commit)",
             "description": "Some teams prefer to disable fast-forward merges to ensure a merge commit is always created. This makes it clear when branches were integrated and helps track features or fixes in project history.",
             "media": [
@@ -568,7 +584,7 @@
             "commands": []
           },
           {
-            "id": 42,
+            "id": 43,
             "title": "Rebase Workflow",
             "description": "Rebasing allows developers to move or 'replay' feature branch commits on top of another branch, typically `main`. This results in a clean, linear history but should be used carefully to avoid overwriting shared work.",
             "media": [
@@ -584,7 +600,7 @@
             "commands": []
           },
           {
-            "id": 43,
+            "id": 44,
             "title": "Protected Branch Policies",
             "description": "In Azure DevOps, critical branches like `main` or `release` are often protected with policies. These can require successful builds, code reviews, or approval checks before merging. Protected policies ensure code quality and safeguard production‑ready code.",
             "media": [
@@ -599,7 +615,7 @@
         "commands": []
       },
       {
-        "id": 44,
+        "id": 45,
         "title": "Confirm Your Upload",
         "description": "Visit **Repos → Files** in Azure DevOps to confirm that your project files have been uploaded. You’ll see commit history on the right—proof that your local work now exists safely in the remote repository. If you used a feature branch, you can now open a Pull Request to merge your changes into `main` once reviewed.",
         "commands": []
@@ -608,19 +624,19 @@
     "commands": []
   },
   {
-    "id": 45,
+    "id": 46,
     "title": "Pull Requests and Collaboration",
     "description": "Pull Requests streamline teamwork by letting one developer suggest their updates and others review them before the changes enter the main branch. It turns merging into a clear discussion process instead of guesswork.",
     "media": [],
     "items": [
       {
-        "id": 46,
+        "id": 47,
         "title": "Understand Pull Requests",
         "description": "A **Pull Request (PR)** connects your feature branch with `main`. Instead of merging outright, you invite teammates to look over the code. They can comment, ask for tweaks, and approve before integration. PRs combine documentation, peer review, and code delivery in one step.",
         "commands": []
       },
       {
-        "id": 47,
+        "id": 48,
         "title": "Create a Pull Request in Azure DevOps",
         "description": "Once you’ve pushed your branch, open **Azure DevOps → Repos → Pull Requests → New Pull Request**. Choose your feature branch as the source and `main` as the destination. Write a brief title, explain the purpose, and assign reviewers.\n\n> **VS Code Tip:** With the **Azure Repos** extension, you can open, comment, and approve PRs directly within VS Code.",
         "commands": [],
@@ -632,13 +648,13 @@
         ]
       },
       {
-        "id": 48,
+        "id": 49,
         "title": "Review and Merge the PR",
         "description": "Reviewers inspect differences, comment inline, and once satisfied, select **Complete** to merge. Azure DevOps can automatically close the source branch after merging to keep things organized.",
         "commands": []
       },
       {
-        "id": 49,
+        "id": 50,
         "title": "Clean Up After Merge",
         "description": "After merging a PR, delete the feature branch both locally and remotely. This keeps your branch list relevant and manageable.\n\n> Deleting a branch doesn’t remove its commits — they remain safely in the main branch history.",
         "commands": [
@@ -658,13 +674,13 @@
     "commands": []
   },
   {
-    "id": 50,
+    "id": 51,
     "title": "Troubleshooting and Best Practices",
     "description": "Everyone makes mistakes — Git’s design makes recovery safe and straightforward. This section teaches you how to step backward gracefully and how to keep your workflow clean as your project grows.",
     "media": [],
     "items": [
       {
-        "id": 51,
+        "id": 52,
         "title": "Undo Local Edits",
         "description": "If you edited the wrong file or changed your mind, restore the previous version from your last commit.",
         "commands": [
@@ -676,7 +692,7 @@
         ]
       },
       {
-        "id": 52,
+        "id": 53,
         "title": "Redo the Last Commit Message or Contents",
         "description": "Sometimes you commit too early. `git reset --soft HEAD~1` moves your pointer back one commit but leaves all files staged, ready to improve and recommit.",
         "commands": [
@@ -688,7 +704,7 @@
         ]
       },
       {
-        "id": 53,
+        "id": 54,
         "title": "Undo a Specific Commit Safely",
         "description": "`git revert` makes a brand‑new commit that undoes the selected one while preserving history. This is safer on shared branches than rewriting commits with reset.",
         "commands": [
@@ -700,7 +716,7 @@
         ]
       },
       {
-        "id": 54,
+        "id": 55,
         "title": "Keep a Healthy Workflow",
         "description": "- Pull before pushing to avoid conflicts.\n- Keep commits focused and messages clear.\n- Test branches thoroughly before merging.\n- Leave `main` stable so others trust it.",
         "commands": []
@@ -709,7 +725,7 @@
     "commands": []
   },
   {
-    "id": 55,
+    "id": 56,
     "title": "Git Command Cheatsheet",
     "description": "A compact reference with all the main Git commands introduced throughout this course.",
     "media": [
