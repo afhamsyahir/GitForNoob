@@ -2,56 +2,64 @@
   {
     "id": 1,
     "title": "Introduction to Git",
-    "description": "Start your journey with **Git**, the tool developers use to record project history, experiment safely, and collaborate effectively. This section covers what Git is, why it matters, and how to set it up on your device so you’re ready to version your code.",
+    "description": "Get started with **Git** by understanding the real-world problems it solves, why developers rely on it, and how to set it up on your system.",
     "media": [],
     "items": [
       {
         "id": 2,
-        "title": "What is Git?",
-        "description": "**Git** keeps snapshots of your project over time. Instead of saving endless copies of files, Git captures differences after every meaningful change. Each developer keeps a complete copy of that history, so even if someone’s network goes down, they can still keep working and later re‑sync. This ability to work independently yet stay connected makes Git the backbone of modern collaboration.",
-        "media": [],
+        "title": "The Everyday Developer Problem",
+        "description": "Imagine you’re working on a website with a few friends. Everyone edits the same files, and someone accidentally deletes a section while another pushes new code. Suddenly, nothing works — and you’re not sure which file version was correct.\n\nYou send files named like `index_final_v2`, `index_final_v2_REAL`, or `index_final_v3_updated` to each other, but things keep breaking. Sound familiar?",
         "commands": []
       },
       {
         "id": 3,
-        "title": "Why Use Git?",
-        "description": "Imagine being able to time travel through your project. Git lets you go back to any previous version, compare progress, and understand how things evolved. Multiple people can work in parallel branches and merge their updates later. With Git, mistakes are reversible and teamwork becomes predictable instead of chaotic.",
+        "title": "Where Git Comes In",
+        "description": "**Git** was created to fix that problem. It’s a version control system that tracks every change in your codebase so you can:\n\n- See **who changed what** and when.\n- **Undo mistakes** or recover older versions easily.\n- **Collaborate safely** with teammates without overwriting each other’s work.\n\nEvery developer has a complete copy of the project’s history, so even if your internet drops — your progress stays safe.",
         "media": [],
+        "items": [],
         "commands": []
       },
       {
         "id": 4,
+        "title": "Why Developers Depend on Git",
+        "description": "Git gives developers the freedom to experiment and the safety net to recover from mistakes. You can build new features on separate branches, fix bugs in isolation, and merge everything back cleanly.\n\nThink of Git as a **time machine for code** — it remembers every meaningful snapshot so you never lose progress.",
+        "media": [],
+        "items": [],
+        "commands": []
+      },
+      {
+        "id": 5,
         "title": "Installing Git",
-        "description": "Before you start tracking changes, install Git on your computer.\n\n- **Windows:** Download the official installer, accept the defaults, and reboot your terminal.\n- **macOS:** Use **Homebrew** for quick installation.\n- **Linux (Ubuntu/Debian):** Install through your built‑in package manager.",
+        "description": "Before using Git, install it on your device so you can start tracking and committing changes.",
         "media": [],
         "items": [
           {
-            "id": 5,
+            "id": 6,
             "title": "Windows Installation",
-            "description": "Download the [Git for Windows installer](https://git-scm.com/download/win), run it, keep the recommended defaults, and restart your terminal afterward.",
+            "description": "Download the [Git for Windows installer](https://git-scm.com/download/win), run it, accept the default options, and restart your terminal afterwards.",
             "commands": []
           },
           {
-            "id": 6,
+            "id": 7,
             "title": "macOS Installation",
-            "description": "Install Git through Homebrew using one simple command.",
+            "description": "Install Git quickly using the Homebrew package manager.",
             "commands": [
               {
                 "name": "Terminal",
                 "action": "brew install git",
-                "description": "Executes a Git operation."
+                "description": "Installs Git via the Homebrew package manager."
               }
             ]
           },
           {
-            "id": 7,
+            "id": 8,
             "title": "Linux Installation (Debian/Ubuntu)",
-            "description": "Use apt‑get to install Git via terminal.",
+            "description": "Install Git using your Linux package manager.",
             "commands": [
               {
                 "name": "Terminal",
                 "action": "sudo apt-get install git -y",
-                "description": "Executes a Git operation."
+                "description": "Installs Git using the APT package manager."
               }
             ]
           }
@@ -59,36 +67,36 @@
         "commands": []
       },
       {
-        "id": 8,
+        "id": 9,
         "title": "Initial Git Configuration",
-        "description": "After installing, personalize Git with your name and email. Every commit you create carries this identity, showing who made each change.\n\n> **VS Code Tip:** Open *Terminal → New Terminal*, run both commands, then confirm with `git config --list`. You only need to set this once per system.",
+        "description": "After installation, configure your identity so Git tags each commit with your name and email address.\n\n> **VS Code Tip:** Open *Terminal → New Terminal*, run both commands below, and confirm with `git config --list`. You only need to set this once per computer.",
         "commands": [
           {
             "name": "Terminal",
             "action": "git config --global user.name \"Your Name\"",
-            "description": "Sets your global Git username used for all repositories."
+            "description": "Sets your global Git username used in all repositories."
           },
           {
             "name": "Terminal",
             "action": "git config --global user.email \"your@email.com\"",
-            "description": "Sets your global Git email address for all repositories."
+            "description": "Sets your global Git email address for commit identification."
           }
         ]
       },
       {
-        "id": 9,
+        "id": 10,
         "title": "Verify Installation",
-        "description": "Check that Git was installed correctly and your details are saved. If these commands show output, everything is working.",
+        "description": "Run these commands to confirm Git is installed correctly and your settings have been applied.",
         "commands": [
           {
             "name": "Terminal",
             "action": "git --version",
-            "description": "Executes a Git operation."
+            "description": "Displays the installed Git version."
           },
           {
             "name": "Terminal",
             "action": "git config --list",
-            "description": "Sets configuration values such as username, email, and editor preferences."
+            "description": "Lists all Git configuration settings currently in effect."
           }
         ]
       }
@@ -96,13 +104,13 @@
     "commands": []
   },
   {
-    "id": 10,
+    "id": 11,
     "title": "Core Git Workflow",
     "description": "Guides learners through the normal Git process—check status, stage files, commit changes, and review previous work—while also showing where each task appears inside Visual Studio Code.",
     "media": [],
     "items": [
       {
-        "id": 11,
+        "id": 12,
         "title": "The Development Cycle",
         "description": "Before diving into commands, it helps to see the overall rhythm that developers follow with Git every day. Each part of the system fits into one continuous loop:\n\n1. **Pull** – Get the latest updates from your team.\n2. **Edit** – Make changes to your local files.\n3. **Stage** – Mark which files are ready to record.\n4. **Commit** – Save those staged changes into local history.\n5. **Push** – Share your commits online so others can access them.\n\nThis simple sequence — **Pull → Edit → Stage → Commit → Push** — forms the foundation of everything we’ll learn next.\n\n> **Pro Tip:** VS Code’s *Sync Changes* button conveniently runs both pull and push, keeping your local and remote repositories aligned.",
         "media": [
@@ -118,7 +126,7 @@
         "commands": []
       },
       {
-        "id": 12,
+        "id": 13,
         "title": "How Git Tracks Changes",
         "description": "Git organizes your files into three zones:\n\n1. **Working Directory** – where you make edits.\n2. **Staging Area (Index)** – where you decide which edits to include.\n3. **Repository (History)** – where confirmed commits are stored.\n\nThink of it like preparing a report: you draft edits (working), mark sections to include (staging), then save a version snapshot (commit).",
         "media": [
@@ -135,7 +143,7 @@
         "commands": []
       },
       {
-        "id": 13,
+        "id": 14,
         "title": "Check Repository Status",
         "description": "Use this step whenever you want to see what changed since your last commit. It lists new, modified, and staged files to keep your work organized.\n\n> **VS Code Tip:** Open the **Source Control** panel (Ctrl + Shift + G). Files marked *M* are modified, *U* are untracked, and staged ones appear in green.",
         "media": [
@@ -153,7 +161,7 @@
         ]
       },
       {
-        "id": 14,
+        "id": 15,
         "title": "Stage Changes",
         "description": "Before committing, pick which files or lines to include in the next snapshot. Staging helps you commit related changes together for clearer history.\n\n> **VS Code Tip:** In the **Source Control** view, click the **+** icon beside a file to stage it. Staged files move to the *Staged Changes* area above.",
         "media": [
@@ -176,7 +184,7 @@
         ]
       },
       {
-        "id": 15,
+        "id": 16,
         "title": "Commit Changes",
         "description": "A commit permanently records the staged updates in project history along with your short descriptive message.\n\n> **VS Code Tip:** Enter a message at the top of **Source Control** and press **Ctrl + Enter** or click the check mark to commit.",
         "media": [
@@ -194,7 +202,7 @@
         ]
       },
       {
-        "id": 16,
+        "id": 17,
         "title": "Review Commit History",
         "description": "Every commit becomes a permanent checkpoint. Listing history helps you track progress, understand changes, and trace bugs.\n\n> **VS Code Tip:** Use the *Timeline* view in the file explorer or install **GitLens** to browse commit details visually.",
         "media": [
@@ -217,7 +225,7 @@
         ]
       },
       {
-        "id": 17,
+        "id": 18,
         "title": "Sync with Remote Repositories",
         "description": "After committing locally, your next goal is to share those commits with your team and stay up‑to‑date with their changes. Git uses remotes (like Azure DevOps) for this connection.\n\n1. **Push** – Uploads your local commits to the remote repository so others can see your changes.\n2. **Pull** – Downloads new commits from the remote and automatically merges them into your current branch.\n\nTogether, these two commands keep everyone’s history aligned.\n\n> **Quick Reminder:** You’ll explore `push`, `pull`, and other remote commands in more depth in the upcoming *Working with Remotes* section.",
         "commands": [
@@ -234,7 +242,7 @@
         ]
       },
       {
-        "id": 18,
+        "id": 19,
         "title": "Ignore Temporary Files",
         "description": "Create a `.gitignore` file to exclude folders and files Git should not track, such as dependency caches or build outputs.\n\n> **VS Code Tip:** Add patterns like `node_modules/` or `dist/` directly into your `.gitignore`. Stage and commit the file like normal changes.\n\n**Common patterns to ignore:**\n- `node_modules/` - Node.js dependencies\n- `dist/` or `build/` - Compiled output\n- `.env` - Environment variables with secrets\n- `.DS_Store` - macOS system files\n- `*.log` - Log files",
         "media": [
@@ -256,13 +264,13 @@
     "commands": []
   },
   {
-    "id": 19,
+    "id": 20,
     "title": "Branching and Merging",
     "description": "Branches are parallel timelines of your project. They let you work on new ideas or fixes without touching the main branch. When everything works, you merge and move forward as one history.",
     "media": [],
     "items": [
       {
-        "id": 20,
+        "id": 21,
         "title": "Create and Switch Branches",
         "description": "Listing, creating, and switching branches are daily actions in Git. It’s best to branch off from a stable `main` before adding new work.\n\n> **VS Code Tip:** Click your branch name in the bottom bar to open the branch menu. You can create or switch branches directly.",
         "commands": [
@@ -290,7 +298,7 @@
         ]
       },
       {
-        "id": 21,
+        "id": 22,
         "title": "Work and Commit Independently",
         "description": "While on your branch, you can commit freely knowing the main branch remains untouched. Each branch keeps its own trail of snapshots until you decide to merge.",
         "commands": [
@@ -313,7 +321,7 @@
         ]
       },
       {
-        "id": 22,
+        "id": 23,
         "title": "Merge Updates into Main",
         "description": "When your branch looks good, merge it back into `main`. Git applies your commits on top of what’s already there.\n\n> **VS Code Tip:** Switch to `main`, then in *Source Control*, choose **... → Merge Branch...** and select your feature.",
         "commands": [
@@ -336,7 +344,7 @@
         ]
       },
       {
-        "id": 23,
+        "id": 24,
         "title": "Handle Merge Conflicts",
         "description": "If two branches change the same lines differently, Git will pause and ask you to choose which version to keep. Open the file, compare both sides, decide what stays, remove the markers, and commit the resolved file.\n\n> **VS Code Tip:** VS Code highlights conflicts with quick buttons like *Accept Current* or *Accept Incoming* to make choices easier.",
         "commands": [
@@ -353,7 +361,7 @@
         ]
       },
       {
-        "id": 24,
+        "id": 25,
         "title": "Clean Up Branches",
         "description": "After merging, old feature branches can safely be deleted to keep things tidy. The commits remain in history even after the branch name disappears.",
         "commands": [
@@ -368,13 +376,13 @@
     "commands": []
   },
   {
-    "id": 25,
+    "id": 26,
     "title": "Working with Remotes",
     "description": "A remote repository is your project’s shared home online—usually hosted in systems like **Azure DevOps**. Linking your local repository with a remote ensures everyone works on the same source while still being free to code offline. This section walks through the full loop: setting up the connection, pushing, pulling, and staying in sync.",
     "media": [],
     "items": [
       {
-        "id": 26,
+        "id": 27,
         "title": "Add a Remote Repository",
         "description": "When you first create a Git project, it exists only on your computer. Adding a remote establishes a connection to its cloud version. You normally name it `origin`, which represents the default location for sharing and fetching updates.\n\n> Think of it as registering your project’s online address—once registered, your local and remote copies know each other.",
         "commands": [
@@ -386,7 +394,7 @@
         ]
       },
       {
-        "id": 27,
+        "id": 28,
         "title": "Push Your Local Work Online",
         "description": "Pushing sends everything you’ve committed locally to the remote repository so others can access it. The first push also links your branch so future updates happen with a simple `git push`.\n\n> **VS Code Tip:** Use the circular arrows **Sync Changes** icon in *Source Control* to push directly from VS Code.",
         "commands": [
@@ -398,7 +406,7 @@
         ]
       },
       {
-        "id": 28,
+        "id": 29,
         "title": "Pull the Latest Updates",
         "description": "Fetching and merging at once, `git pull` downloads new commits from the remote and blends them into your current branch. It keeps your local copy up‑to‑date before you continue working.\n\n> Always pull first thing in the morning—it ensures you build on the latest base rather than re‑doing something already solved.",
         "commands": [
@@ -410,7 +418,7 @@
         ]
       },
       {
-        "id": 29,
+        "id": 30,
         "title": "Preview Remote Changes Safely",
         "description": "`git fetch` updates your view of the remote repository without touching your working files. It’s a safe way to see if teammates have pushed anything new before merging it in.",
         "commands": [
@@ -422,7 +430,7 @@
         ]
       },
       {
-        "id": 30,
+        "id": 31,
         "title": "Keep Remote References Clean",
         "description": "When remote branches are deleted after merge, your local Git still remembers them. `git fetch --prune` removes these dead references to keep your branch list neat and factual.",
         "commands": [
@@ -434,7 +442,7 @@
         ]
       },
       {
-        "id": 31,
+        "id": 32,
         "title": "Check Remote Configuration",
         "description": "Verify connections anytime to make sure you’re pushing and pulling to the correct place. `git remote -v` lists the URLs for each remote; `git remote show origin` offers more detail about tracking and branch status.",
         "commands": [
@@ -451,7 +459,7 @@
         ]
       },
       {
-        "id": 32,
+        "id": 33,
         "title": "Clone an Existing Remote Repository",
         "description": "If the project already exists remotely, you can copy it fully—code, branches, and history—onto your machine using `git clone`. The link to the remote is created automatically so you can immediately pull or push changes.",
         "commands": [
@@ -463,7 +471,7 @@
         ]
       },
       {
-        "id": 33,
+        "id": 34,
         "title": "The Daily Collaboration Cycle",
         "description": "Earlier, you learned the basic Git rhythm — **Pull → Edit → Stage → Commit → Push** — which keeps your local work tidy. Now, that same cycle becomes essential when collaborating as a team.\n\n1. **Pull** to update your local code with your teammates’ latest changes from the remote repository.\n2. **Edit** and improve files locally while staying in sync.\n3. **Stage and Commit** your updates to record meaningful progress.\n4. **Push** to share those commits so others can build on your work.\n\nKeeping this routine ensures everyone works from the newest version, minimizes conflicts, and keeps your shared history consistent.\n\n> **Pro Tip:** In VS Code, using the *Sync Changes* button automatically performs both pull and push operations for a seamless workflow.",
         "commands": []
@@ -472,19 +480,19 @@
     "commands": []
   },
   {
-    "id": 34,
+    "id": 35,
     "title": "Connecting to Azure DevOps",
     "description": "After understanding how Git remotes work, the next step is applying them in **Azure DevOps**. Azure DevOps combines Git’s version control with project management, pipelines, and code reviews. In this section, you’ll learn how to create a repository, connect your local project, and safely collaborate through branches and pull requests.\n\nWhen you first connect a local project to an Azure DevOps repository, Git will typically check out the default branch — usually named `main`. It’s important to know that the `main` branch often has protection policies or restrictions to prevent accidental changes.\n\n> **Best Practice:** Avoid pushing directly to the `main` branch. Instead, create feature branches for your work and merge them back into `main` through a Pull Request (PR). This ensures code reviews, testing, and compliance with your team’s quality standards before updates go live.",
     "media": [],
     "items": [
       {
-        "id": 35,
+        "id": 36,
         "title": "Create or Access a Repository",
         "description": "In **Azure DevOps → Repos → Files**, you can create a new repository or open an existing team project. Each project can hold multiple repositories for different components. The web interface displays branches, commits, and pull requests in a unified dashboard.",
         "commands": []
       },
       {
-        "id": 36,
+        "id": 37,
         "title": "Get the Repository URL",
         "description": "Use the **Clone** button in your Azure DevOps repository to copy the HTTPS URL. It typically looks like `https://dev.azure.com/org/project/_git/repo`. This URL is your main connection point between the local and remote repositories for pushing and pulling updates.",
         "commands": [],
@@ -496,7 +504,7 @@
         ]
       },
       {
-        "id": 37,
+        "id": 38,
         "title": "Push Local Code to Azure DevOps",
         "description": "Once your local repository is initialized and connected, you can commit changes and push them to the cloud. By default, your local checkout will be on the `main` branch after connecting—however, it’s recommended to create a dedicated branch before pushing new work.\n\n> **Tip:** Create a branch before you start a new feature, for example: `git checkout -b feature/new-ui`. After finishing and reviewing your changes, you can merge them into `main` via a Pull Request.\n\n> **VS Code Tip:** Clicking **Sync Changes** in *Source Control* will push commits directly while showing progress in the status bar.",
         "commands": [
@@ -514,13 +522,13 @@
         ]
       },
       {
-        "id": 38,
+        "id": 39,
         "title": "Common Branching and Merging Strategies",
         "description": "Different teams adopt specific branching and merging strategies to maintain organized repositories and smooth collaboration. Below are some of the most common approaches used across the industry:",
         "media": [],
         "items": [
           {
-            "id": 39,
+            "id": 40,
             "title": "Direct Commit to Main (Basic Workflow)",
             "description": "In the earliest stages of a project or when working alone, developers may commit directly to the `main` branch. All changes happen in a single line of history — edits, commits, and pushes go straight into the production branch.\n\nWhile this is simple, it can become risky once multiple people start contributing. A direct commit may accidentally introduce breaking changes, overwrite others’ work, or fail a production build.\n\n> **Good to Know:** Most teams move away from this approach and adopt structured branching strategies (like feature branches or pull requests) to ensure each update is reviewed, tested, and integrated safely.",
             "media": [
@@ -536,7 +544,7 @@
             "commands": []
           },
           {
-            "id": 40,
+            "id": 41,
             "title": "Feature Branch Workflow",
             "description": "Every new feature or bug fix is developed in a dedicated branch (e.g., `feature/auth-system`). Once the work is complete, a Pull Request (PR) is created to merge it back into the main branch. This isolates feature development, simplifies code review, and keeps the main branch stable.",
             "media": [
@@ -552,7 +560,7 @@
             "commands": []
           },
           {
-            "id": 41,
+            "id": 42,
             "title": "Fast-Forward Merge",
             "description": "A fast-forward merge occurs when the target branch has not diverged from the feature branch. In this case, Git simply moves the branch pointer forward to include the new commits. This method keeps the commit history linear and clean.",
             "media": [
@@ -568,7 +576,7 @@
             "commands": []
           },
           {
-            "id": 42,
+            "id": 43,
             "title": "No Fast-Forward (Merge Commit)",
             "description": "Some teams prefer to disable fast-forward merges to ensure a merge commit is always created. This makes it clear when branches were integrated and helps track features or fixes in project history.",
             "media": [
@@ -584,7 +592,7 @@
             "commands": []
           },
           {
-            "id": 43,
+            "id": 44,
             "title": "Rebase Workflow",
             "description": "Rebasing allows developers to move or 'replay' feature branch commits on top of another branch, typically `main`. This results in a clean, linear history but should be used carefully to avoid overwriting shared work.",
             "media": [
@@ -600,7 +608,7 @@
             "commands": []
           },
           {
-            "id": 44,
+            "id": 45,
             "title": "Protected Branch Policies",
             "description": "In Azure DevOps, critical branches like `main` or `release` are often protected with policies. These can require successful builds, code reviews, or approval checks before merging. Protected policies ensure code quality and safeguard production‑ready code.",
             "media": [
@@ -615,7 +623,7 @@
         "commands": []
       },
       {
-        "id": 45,
+        "id": 46,
         "title": "Confirm Your Upload",
         "description": "Visit **Repos → Files** in Azure DevOps to confirm that your project files have been uploaded. You’ll see commit history on the right—proof that your local work now exists safely in the remote repository. If you used a feature branch, you can now open a Pull Request to merge your changes into `main` once reviewed.",
         "commands": []
@@ -624,19 +632,19 @@
     "commands": []
   },
   {
-    "id": 46,
+    "id": 47,
     "title": "Pull Requests and Collaboration",
     "description": "Pull Requests streamline teamwork by letting one developer suggest their updates and others review them before the changes enter the main branch. It turns merging into a clear discussion process instead of guesswork.",
     "media": [],
     "items": [
       {
-        "id": 47,
+        "id": 48,
         "title": "Understand Pull Requests",
         "description": "A **Pull Request (PR)** connects your feature branch with `main`. Instead of merging outright, you invite teammates to look over the code. They can comment, ask for tweaks, and approve before integration. PRs combine documentation, peer review, and code delivery in one step.",
         "commands": []
       },
       {
-        "id": 48,
+        "id": 49,
         "title": "Create a Pull Request in Azure DevOps",
         "description": "Once you’ve pushed your branch, open **Azure DevOps → Repos → Pull Requests → New Pull Request**. Choose your feature branch as the source and `main` as the destination. Write a brief title, explain the purpose, and assign reviewers.\n\n> **VS Code Tip:** With the **Azure Repos** extension, you can open, comment, and approve PRs directly within VS Code.",
         "commands": [],
@@ -648,13 +656,13 @@
         ]
       },
       {
-        "id": 49,
+        "id": 50,
         "title": "Review and Merge the PR",
         "description": "Reviewers inspect differences, comment inline, and once satisfied, select **Complete** to merge. Azure DevOps can automatically close the source branch after merging to keep things organized.",
         "commands": []
       },
       {
-        "id": 50,
+        "id": 51,
         "title": "Clean Up After Merge",
         "description": "After merging a PR, delete the feature branch both locally and remotely. This keeps your branch list relevant and manageable.\n\n> Deleting a branch doesn’t remove its commits — they remain safely in the main branch history.",
         "commands": [
@@ -674,13 +682,13 @@
     "commands": []
   },
   {
-    "id": 51,
+    "id": 52,
     "title": "Troubleshooting and Best Practices",
     "description": "Everyone makes mistakes — Git’s design makes recovery safe and straightforward. This section teaches you how to step backward gracefully and how to keep your workflow clean as your project grows.",
     "media": [],
     "items": [
       {
-        "id": 52,
+        "id": 53,
         "title": "Undo Local Edits",
         "description": "If you edited the wrong file or changed your mind, restore the previous version from your last commit.",
         "commands": [
@@ -692,7 +700,7 @@
         ]
       },
       {
-        "id": 53,
+        "id": 54,
         "title": "Redo the Last Commit Message or Contents",
         "description": "Sometimes you commit too early. `git reset --soft HEAD~1` moves your pointer back one commit but leaves all files staged, ready to improve and recommit.",
         "commands": [
@@ -704,7 +712,7 @@
         ]
       },
       {
-        "id": 54,
+        "id": 55,
         "title": "Undo a Specific Commit Safely",
         "description": "`git revert` makes a brand‑new commit that undoes the selected one while preserving history. This is safer on shared branches than rewriting commits with reset.",
         "commands": [
@@ -716,7 +724,7 @@
         ]
       },
       {
-        "id": 55,
+        "id": 56,
         "title": "Keep a Healthy Workflow",
         "description": "- Pull before pushing to avoid conflicts.\n- Keep commits focused and messages clear.\n- Test branches thoroughly before merging.\n- Leave `main` stable so others trust it.",
         "commands": []
@@ -725,7 +733,7 @@
     "commands": []
   },
   {
-    "id": 56,
+    "id": 57,
     "title": "Git Command Cheatsheet",
     "description": "A compact reference with all the main Git commands introduced throughout this course.",
     "media": [
