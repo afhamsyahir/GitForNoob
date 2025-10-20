@@ -1,6 +1,6 @@
 <div>
   @for (item of items(); track $index) {
-  <div [id]="item.id.toString()" class="scroll-mt-20">
+  <div class="mb-20" [id]="item.id.toString()">
     <!-- Main Section -->
     <div>
       <h1 class="text-3xl font-semibold leading-tight mb-4 text-foreground">
@@ -24,9 +24,9 @@
 
     <!-- Sub Items -->
     @if (item.items && item.items.length > 0) {
-    <div class="mt-12">
+    <div>
       @for (subItem of item.items; track $index) {
-      <div [id]="subItem.id.toString()" class="mb-12 scroll-mt-20">
+      <div [id]="subItem.id.toString()" class="my-12">
         <h2
           class="text-xl font-medium pb-2 border-b border-zinc-200 dark:border-zinc-800 mb-4 text-foreground"
         >
@@ -49,9 +49,9 @@
 
         <!-- Nested Sub Items -->
         @if (subItem.items && subItem.items.length > 0) {
-        <div class="mt-8">
+        <div>
           @for (nestedItem of subItem.items; track $index) {
-          <div [id]="nestedItem.id.toString()" class="mb-8 scroll-mt-20">
+          <div [id]="nestedItem.id.toString()" class="my-8">
             <h3 class="text-xl font-medium leading-snug mb-3 text-foreground">
               {{ nestedItem.title }}
             </h3>

@@ -27,13 +27,17 @@ export class Sidebar {
       return;
     }
 
-    // Calculate position with offset for fixed header (80px)
-    const headerOffset = 80;
-    const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    // Scroll to position the element so its top aligns with the reference line
+    // Reference line: header (56px) + first margin (mb-20 = 80px) = 136px
+    // We scroll to position the section's top just above this line
+    const referenceLineY = 56 + 48; // 136px
+
+    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+    // Position section so its top is about 20px above the reference line
+    const offsetPosition = elementPosition - (referenceLineY - 20);
 
     window.scrollTo({
-      top: offsetPosition,
+      top: Math.max(0, offsetPosition),
       behavior: 'smooth',
     });
 

@@ -734,6 +734,44 @@
   },
   {
     "id": 57,
+    "title": "Reflection: Submit via Pull Request",
+    "description": "For your final exercise, you’ll capture what you’ve learned using Git itself. This reflection is your opportunity to demonstrate mastery of the development cycle — from branching to pull requests.",
+    "items": [
+      {
+        "id": 58,
+        "title": "Write Your Personal Reflection",
+        "description": "Inside your project folder, create a new file named `reflection.<your-name>.md` and write a short reflection about your learning experience in this Git course.\n\nTo make it easier, you can answer these simple prompts:\n\n1. What is one new thing you learned about Git?\n2. What part of the course was the most useful to you?\n3. What is one Git command you now feel confident using?\n4. How will this help you in your next project?\n\nWrite a few sentences for each question — short and simple is perfectly fine!",
+        "commands": []
+      },
+      {
+        "id": 59,
+        "title": "Create a Branch for Your Reflection",
+        "description": "Before adding your reflection, create a new branch just for this work. Naming it helps reviewers identify your submission easily (e.g., `reflection/<your-name>`).\n\nWorking on your own branch instead of `main` proves you can practice safe collaboration — the same process used for professional code reviews.",
+        "commands": []
+      },
+      {
+        "id": 60,
+        "title": "Commit and Push Your Reflection",
+        "description": "Once your reflection is written, stage and commit it on your personal branch, then push the branch to the remote repository.\n\nRemember: handle this entirely using the Git workflow you’ve practiced. Decide your own commit messages and verify that your branch appears online.",
+        "commands": []
+      },
+      {
+        "id": 61,
+        "title": "Open a Pull Request",
+        "description": "In Azure DevOps (or your Git host), open a Pull Request from your reflection branch into `main`. This represents your final project submission.\n\n- Add a clear PR title (e.g., “Reflection: [Your Name]”).\n- Write a short message summarizing what this PR contains.\n- Assign your instructor or mentor as a reviewer.\n\nThe PR process shows you can deliver work for review safely, rather than committing directly to the main branch.",
+        "commands": []
+      },
+      {
+        "id": 62,
+        "title": "Review and Merge",
+        "description": "After your instructor reviews and approves your reflection PR, complete the merge into `main`. This final merge closes your individual contribution to the repository and confirms that you’ve mastered the full Git collaboration cycle.",
+        "commands": []
+      }
+    ],
+    "media": []
+  },
+  {
+    "id": 63,
     "title": "Git Command Cheatsheet",
     "description": "A compact reference with all the main Git commands introduced throughout this course.",
     "media": [
